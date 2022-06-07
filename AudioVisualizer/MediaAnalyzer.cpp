@@ -21,11 +21,11 @@ namespace winrt::AudioVisualizer::implementation
 	const uint32_t RingBufferSize = 960000;	// reserve buffer for 10 sec worth of stereo audio at 48k
 
 
-	void MediaAnalyzer::dataframe_queue::add(AudioVisualizer::VisualizationDataFrame const &frame)
+	void MediaAnalyzer::dataframe_queue::add(AudioVisualizer::VisualizationDataFrame const& frame)
 	{
 		std::lock_guard<std::mutex> lock(_outputQueueAccessMutex);
 #ifdef _TRACE_
-		Trace::MediaAnalyzer_OutputQueueAdd(frame,!_data.empty() ? _data.front() : nullptr, !_data.empty() ? _data.back(): nullptr, _data.size());
+		Trace::MediaAnalyzer_OutputQueueAdd(frame, !_data.empty() ? _data.front() : nullptr, !_data.empty() ? _data.back() : nullptr, _data.size());
 #endif
 		_data.push(frame);
 		compact();
@@ -35,7 +35,7 @@ namespace winrt::AudioVisualizer::implementation
 	{
 		while (_data.size() > _maxQueueSize) {
 #ifdef _TRACE_
-			Trace::MediaAnalyzer_OutputQueueRemove(_data.front(),_data.size());
+			Trace::MediaAnalyzer_OutputQueueRemove(_data.front(), _data.size());
 #endif
 			_data.pop();
 		}
@@ -64,7 +64,7 @@ namespace winrt::AudioVisualizer::implementation
 		while (!_data.empty())
 		{
 #ifdef _TRACE_
-			auto frontItem = winrt::from_abi<VisualizationDataFrame>(_data.front());
+			auto frontItem = winrt::get_self<VisualizationDataFrame>(_data.front());
 			Trace::MediaAnalyzer_OutputQueueTest(frontItem->Time().Value(), time, time < frontItem->Time().Value(), time >= frontItem->Time().Value() + frontItem->Duration());
 #endif
 			if (time < _data.front().Time().Value()) // Current position is before the visualization queue head - wait until we catch up
@@ -72,7 +72,7 @@ namespace winrt::AudioVisualizer::implementation
 #ifdef _TRACE_
 				Trace::MediaAnalyzer_OutputQueueBehind(frontItem->Time().Value());
 #endif
-				return nullptr; 
+				return nullptr;
 			}
 
 			// Test if front item is matching. Add 5uS to avoid int time representation rounding errors
@@ -117,7 +117,7 @@ namespace winrt::AudioVisualizer::implementation
 		hr = CoCreateInstanceFromApp(CLSID_AudioFrameNativeFactory, nullptr, CLSCTX_INPROC_SERVER, nullptr, 1, qiFactory);
 		check_hresult(hr);
 		check_hresult(qiFactory[0].hr);
-		
+
 		*_audioFrameFactory.put_void() = qiFactory[0].pItf;
 	}
 
@@ -255,7 +255,7 @@ namespace winrt::AudioVisualizer::implementation
 		return ScaleType::Linear;
 	}
 
-	event_token MediaAnalyzer::ConfigurationChanged(winrt::Windows::Foundation::TypedEventHandler<IVisualizationSource,hstring> const& handler)
+	event_token MediaAnalyzer::ConfigurationChanged(winrt::Windows::Foundation::TypedEventHandler<IVisualizationSource, hstring> const& handler)
 	{
 		return _configurationChangedEvent.add(handler);
 	}
@@ -268,14 +268,14 @@ namespace winrt::AudioVisualizer::implementation
 	void MediaAnalyzer::SetProperties(Windows::Foundation::Collections::IPropertySet const& configuration)
 	{
 		configuration.Insert(L"Source", *this);
-		configuration.Insert(L"Type",winrt::box_value(GetRuntimeClassName()));
+		configuration.Insert(L"Type", winrt::box_value(GetRuntimeClassName()));
 	}
 
 	//-------------------------------------------------------------------
 	// GetStreamLimits
 	// Returns the minum and maximum number of streams.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetStreamLimits(DWORD * pdwInputMinimum, DWORD * pdwInputMaximum, DWORD * pdwOutputMinimum, DWORD * pdwOutputMaximum)
+	STDMETHODIMP MediaAnalyzer::GetStreamLimits(DWORD* pdwInputMinimum, DWORD* pdwInputMaximum, DWORD* pdwOutputMinimum, DWORD* pdwOutputMaximum)
 	{
 		if (pdwInputMaximum == nullptr || pdwInputMaximum == nullptr || pdwOutputMinimum == nullptr || pdwOutputMaximum == nullptr)
 			return E_POINTER;
@@ -291,7 +291,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetStreamCount
 	// Returns the actual number of streams.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetStreamCount(DWORD * pcInputStreams, DWORD * pcOutputStreams)
+	STDMETHODIMP MediaAnalyzer::GetStreamCount(DWORD* pcInputStreams, DWORD* pcOutputStreams)
 	{
 		if ((pcInputStreams == NULL) || (pcOutputStreams == NULL))
 		{
@@ -308,7 +308,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetStreamIDs
 	// Returns stream IDs for the input and output streams.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetStreamIDs(DWORD, DWORD *, DWORD, DWORD *)
+	STDMETHODIMP MediaAnalyzer::GetStreamIDs(DWORD, DWORD*, DWORD, DWORD*)
 	{
 		// It is not required to implement this method if the MFT has a fixed number of
 		// streams AND the stream IDs are numbered sequentially from zero (that is, the
@@ -322,7 +322,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetInputStreamInfo
 	// Returns information about an input stream.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetInputStreamInfo(DWORD dwInputStreamID, MFT_INPUT_STREAM_INFO * pStreamInfo)
+	STDMETHODIMP MediaAnalyzer::GetInputStreamInfo(DWORD dwInputStreamID, MFT_INPUT_STREAM_INFO* pStreamInfo)
 	{
 		if (pStreamInfo == NULL)
 		{
@@ -347,7 +347,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetOutputStreamInfo
 	// Returns information about an output stream.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetOutputStreamInfo(DWORD dwOutputStreamID, MFT_OUTPUT_STREAM_INFO * pStreamInfo)
+	STDMETHODIMP MediaAnalyzer::GetOutputStreamInfo(DWORD dwOutputStreamID, MFT_OUTPUT_STREAM_INFO* pStreamInfo)
 	{
 		if (pStreamInfo == NULL)
 		{
@@ -383,7 +383,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetAttributes
 	// Returns the attributes for the MFT.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetAttributes(IMFAttributes ** ppAttributes)
+	STDMETHODIMP MediaAnalyzer::GetAttributes(IMFAttributes** ppAttributes)
 	{
 		if (ppAttributes == NULL)
 		{
@@ -398,7 +398,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetInputStreamAttributes
 	// Returns stream-level attributes for an input stream.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetInputStreamAttributes(DWORD, IMFAttributes **)
+	STDMETHODIMP MediaAnalyzer::GetInputStreamAttributes(DWORD, IMFAttributes**)
 	{
 		// This MFT does not support any stream-level attributes, so the method is not implemented.
 		return E_NOTIMPL;
@@ -408,7 +408,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetOutputStreamAttributes
 	// Returns stream-level attributes for an output stream.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetOutputStreamAttributes(DWORD, IMFAttributes **)
+	STDMETHODIMP MediaAnalyzer::GetOutputStreamAttributes(DWORD, IMFAttributes**)
 	{
 		// This MFT does not support any stream-level attributes, so the method is not implemented.
 		return E_NOTIMPL;
@@ -428,7 +428,7 @@ namespace winrt::AudioVisualizer::implementation
 	// AddInputStreams
 	// Add streams for processing
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::AddInputStreams(DWORD, DWORD *)
+	STDMETHODIMP MediaAnalyzer::AddInputStreams(DWORD, DWORD*)
 	{
 		// This MFT does not support any stream-level attributes, so the method is not implemented.
 		return E_NOTIMPL;
@@ -438,7 +438,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetInputAvailableType
 	// Returns a preferred input type.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetInputAvailableType(DWORD dwInputStreamID, DWORD dwTypeIndex, IMFMediaType **ppType)
+	STDMETHODIMP MediaAnalyzer::GetInputAvailableType(DWORD dwInputStreamID, DWORD dwTypeIndex, IMFMediaType** ppType)
 	{
 		if (ppType == NULL)
 		{
@@ -501,7 +501,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetOutputAvailableType
 	// Returns a preferred output type.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetOutputAvailableType(DWORD dwOutputStreamID, DWORD dwTypeIndex, IMFMediaType **ppType)
+	STDMETHODIMP MediaAnalyzer::GetOutputAvailableType(DWORD dwOutputStreamID, DWORD dwTypeIndex, IMFMediaType** ppType)
 	{
 		if (ppType == NULL)
 		{
@@ -536,7 +536,7 @@ namespace winrt::AudioVisualizer::implementation
 	// SetInputType
 	// Test and set input data type
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::SetInputType(DWORD dwInputStreamID, IMFMediaType * pType, DWORD dwFlags)
+	STDMETHODIMP MediaAnalyzer::SetInputType(DWORD dwInputStreamID, IMFMediaType* pType, DWORD dwFlags)
 	{
 #ifdef _TRACE_
 		Trace::MediaAnalyzer_SetInputType(pType, dwFlags != 0);
@@ -590,7 +590,7 @@ namespace winrt::AudioVisualizer::implementation
 	// SetOutputType
 	// Test and set output data type
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::SetOutputType(DWORD dwOutputStreamID, IMFMediaType * pType, DWORD dwFlags)
+	STDMETHODIMP MediaAnalyzer::SetOutputType(DWORD dwOutputStreamID, IMFMediaType* pType, DWORD dwFlags)
 	{
 #ifdef _TRACE_
 		Trace::MediaAnalyzer_SetOutputType(pType, dwFlags != 0);
@@ -625,7 +625,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetInputCurrentType
 	// Returns the current input type.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetInputCurrentType(DWORD dwInputStreamID, IMFMediaType ** ppType)
+	STDMETHODIMP MediaAnalyzer::GetInputCurrentType(DWORD dwInputStreamID, IMFMediaType** ppType)
 	{
 		if (ppType == NULL)
 		{
@@ -650,7 +650,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetOutputCurrentType
 	// Returns the current output type.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetOutputCurrentType(DWORD dwOutputStreamID, IMFMediaType ** ppType)
+	STDMETHODIMP MediaAnalyzer::GetOutputCurrentType(DWORD dwOutputStreamID, IMFMediaType** ppType)
 	{
 		if (ppType == NULL)
 		{
@@ -677,7 +677,7 @@ namespace winrt::AudioVisualizer::implementation
 	//-------------------------------------------------------------------
 	STDMETHODIMP MediaAnalyzer::GetInputStatus(
 		DWORD           dwInputStreamID,
-		DWORD           *pdwFlags
+		DWORD* pdwFlags
 	)
 	{
 		if (pdwFlags == nullptr)
@@ -714,7 +714,7 @@ namespace winrt::AudioVisualizer::implementation
 	// GetOutputStatus
 	// Query if the MFT can produce output.
 	//-------------------------------------------------------------------
-	STDMETHODIMP MediaAnalyzer::GetOutputStatus(DWORD *pdwFlags)
+	STDMETHODIMP MediaAnalyzer::GetOutputStatus(DWORD* pdwFlags)
 	{
 		if (pdwFlags == nullptr)
 		{
@@ -749,7 +749,7 @@ namespace winrt::AudioVisualizer::implementation
 	//-------------------------------------------------------------------
 	STDMETHODIMP MediaAnalyzer::ProcessEvent(
 		DWORD     /*dwStreamIndex*/,
-		IMFMediaEvent *     /*pEvent*/
+		IMFMediaEvent*     /*pEvent*/
 	)
 	{
 		return S_OK;
@@ -821,7 +821,7 @@ namespace winrt::AudioVisualizer::implementation
 		return hr;
 	}
 
-	HRESULT MediaAnalyzer::ProcessInput(DWORD dwInputStreamID, IMFSample * pSample, DWORD dwFlags)
+	HRESULT MediaAnalyzer::ProcessInput(DWORD dwInputStreamID, IMFSample* pSample, DWORD dwFlags)
 	{
 #ifdef _TRACE_
 		Trace::MediaAnalyzer_ProcessInput(pSample);
@@ -861,7 +861,7 @@ namespace winrt::AudioVisualizer::implementation
 
 		return hr;
 	}
-	HRESULT MediaAnalyzer::ProcessOutput(DWORD dwFlags, DWORD cOutputBufferCount, MFT_OUTPUT_DATA_BUFFER * pOutputSamples, DWORD * pdwStatus)
+	HRESULT MediaAnalyzer::ProcessOutput(DWORD dwFlags, DWORD cOutputBufferCount, MFT_OUTPUT_DATA_BUFFER* pOutputSamples, DWORD* pdwStatus)
 	{
 #ifdef _TRACE_
 		Trace::MediaAnalyzer_ProcessOutput();
@@ -902,7 +902,7 @@ namespace winrt::AudioVisualizer::implementation
 		return hr;
 	}
 
-	Windows::Media::AudioFrame MediaAnalyzer::ConvertToAudioFrame(IMFSample *pSample)
+	Windows::Media::AudioFrame MediaAnalyzer::ConvertToAudioFrame(IMFSample* pSample)
 	{
 		// Convert sample to audio frame
 		com_ptr<ABI::Windows::Media::IAudioFrame> frame;
@@ -910,7 +910,7 @@ namespace winrt::AudioVisualizer::implementation
 		return frame.as<Windows::Media::AudioFrame>();
 	}
 
-	HRESULT MediaAnalyzer::SetPresentationClock(IMFPresentationClock * pPresentationClock)
+	HRESULT MediaAnalyzer::SetPresentationClock(IMFPresentationClock* pPresentationClock)
 	{
 		std::lock_guard<std::mutex> lock(_presentationClockMutex);
 		if (_presentationClock)
@@ -919,7 +919,7 @@ namespace winrt::AudioVisualizer::implementation
 		}
 
 		copy_from_abi(_presentationClock, pPresentationClock);
-		
+
 		if (_presentationClock) {
 			_presentationClock->AddClockStateSink(this);
 		}
@@ -932,13 +932,13 @@ namespace winrt::AudioVisualizer::implementation
 		UINT32 sampleRate = 0;
 		m_spInputType->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &sampleRate);
 		uint32_t stepFrameCount = (uint32_t)(sampleRate / _fOutputFps);
-		uint32_t overlapFrames = (uint32_t) (_fInputOverlap * stepFrameCount);
+		uint32_t overlapFrames = (uint32_t)(_fInputOverlap * stepFrameCount);
 		UINT32 channelCount = 0;
 		m_spInputType->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &channelCount);
 		if (_analyzer) {
 			_analyzer.Output(_analyzerOutputEvent);
 		}
-		_analyzer = make<AudioAnalyzer>(RingBufferSize, (uint32_t) channelCount, (uint32_t) sampleRate, stepFrameCount, overlapFrames, _fftLength, true);
+		_analyzer = make<AudioAnalyzer>(RingBufferSize, (uint32_t)channelCount, (uint32_t)sampleRate, stepFrameCount, overlapFrames, _fftLength, true);
 		_analyzer.AnalyzerTypes(_analyzerTypes);
 		_analyzerOutputEvent = _analyzer.Output(
 			Windows::Foundation::TypedEventHandler<AudioVisualizer::AudioAnalyzer, AudioVisualizer::VisualizationDataFrame>(this, &MediaAnalyzer::OnAnalyzerOutput)

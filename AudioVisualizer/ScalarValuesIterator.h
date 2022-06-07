@@ -3,12 +3,12 @@ namespace winrt::AudioVisualizer::implementation
 {
 	struct ScalarValuesIterator : implements<ScalarValuesIterator, Windows::Foundation::Collections::IIterator<float>>
 	{
-		const float *_pData;
+		const float* _pData;
 		size_t _size;
 		size_t _currentIndex;
 		IInspectable _owner{ nullptr };
 
-		ScalarValuesIterator(const float *pData, size_t size, IInspectable const & owner) {
+		ScalarValuesIterator(const float* pData, size_t size, IInspectable const& owner) {
 			_pData = pData;
 			_size = size;
 			_currentIndex = 0;

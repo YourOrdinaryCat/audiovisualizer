@@ -14,7 +14,7 @@ namespace winrt::AudioVisualizer::implementation
 	{
 	}
 
-	void DiscreteVUBar::OnUpdateMeter(VisualizationDataFrame const &frame)
+	void DiscreteVUBar::OnUpdateMeter(VisualizationDataFrame const& frame)
 	{
 		float rmsValue = -100.0f;
 		float peakValue = -100.0f;

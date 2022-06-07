@@ -2,6 +2,9 @@
 #include "SpectrumVisualizer.h"
 #include <winrt/Microsoft.Graphics.Canvas.Text.h>
 
+#include <mutex>
+#include <StlLock.h>
+
 using namespace winrt::Windows::UI::Xaml::Controls;
 using namespace winrt::Windows::UI::Xaml;
 using namespace winrt::Windows::UI;
@@ -15,7 +18,7 @@ namespace winrt::AudioVisualizer::implementation
 	{
 	}
 
-	void SpectrumVisualizer::OnSourceChanged(hstring const &propertyName)
+	void SpectrumVisualizer::OnSourceChanged(hstring const& propertyName)
 	{
 		if (propertyName == L"FrequencyCount" || propertyName == L"Source" || propertyName == L"")
 		{
@@ -36,7 +39,7 @@ namespace winrt::AudioVisualizer::implementation
 		}
 	}
 
-	void SpectrumVisualizer::OnUpdateMeter(AudioVisualizer::VisualizationDataFrame const & frame)
+	void SpectrumVisualizer::OnUpdateMeter(AudioVisualizer::VisualizationDataFrame const& frame)
 	{
 		Windows::Foundation::Collections::IVectorView<float> spectrumValues{ nullptr };
 		if (frame && frame.Spectrum() && frame.Spectrum().Size() > _channelIndex) {
@@ -58,7 +61,7 @@ namespace winrt::AudioVisualizer::implementation
 	void SpectrumVisualizer::OnDraw(Microsoft::Graphics::Canvas::CanvasDrawingSession drawingSession, VisualizationDataFrame dataFrame, Windows::Foundation::IReference<Windows::Foundation::TimeSpan> presentationTime)
 	{
 		std::lock_guard<std::mutex> lock(_lock);
-		SpectrumData data{ nullptr }; 
+		SpectrumData data{ nullptr };
 		if (dataFrame && dataFrame.Spectrum())
 		{
 			if (dataFrame.Spectrum().AmplitudeScale() == ScaleType::Linear) {
@@ -71,12 +74,12 @@ namespace winrt::AudioVisualizer::implementation
 
 		if (!data || _channelIndex >= data.Size())
 			return;
-	
+
 		Windows::Foundation::Collections::IVectorView<float> spectrum = data.GetAt(_channelIndex);
 
 		Size barSize(_orientation == Orientation::Vertical ? _swapChainSize.Width / spectrum.Size() : _swapChainSize.Width,
 							_orientation == Orientation::Vertical ? _swapChainSize.Height : _swapChainSize.Height / spectrum.Size());
-		
+
 		Rect barRect(_orientation == Orientation::Vertical ? Point(0,_swapChainSize.Height - barSize.Height) : Point(0,0), barSize);
 
 		for (size_t barIndex = 0; barIndex < spectrum.Size(); barIndex++)

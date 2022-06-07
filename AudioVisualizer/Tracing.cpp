@@ -30,7 +30,7 @@ void Trace::ShutDown()
 	}
 }
 
-Trace::Activity Trace::Constructor(LPCTSTR szObjectName, void *pObject)
+Trace::Activity Trace::Constructor(LPCTSTR szObjectName, void* pObject)
 {
 	auto fields = LoggingFields();
 	fields.AddString(L"Name", szObjectName);
@@ -42,14 +42,14 @@ Trace::Activity Trace::Constructor(LPCTSTR szObjectName, void *pObject)
 	return Activity(g_LogChannel.StartActivity(szObjectName, fields));
 }
 
-void Trace::MediaAnalyzer_SetInputType(IMFMediaType * pType, bool bTest)
+void Trace::MediaAnalyzer_SetInputType(IMFMediaType* pType, bool bTest)
 {
 	auto fields = LoggingFields();
 	AddMediaTypeFields(pType, fields);
 	fields.AddBoolean(L"TestOnly", bTest);
 	g_LogChannel.LogEvent(L"MediaAnalyzer_SetInputType", fields);
 }
-void Trace::MediaAnalyzer_SetOutputType(IMFMediaType * pType, bool bTest)
+void Trace::MediaAnalyzer_SetOutputType(IMFMediaType* pType, bool bTest)
 {
 	auto fields = LoggingFields();
 	AddMediaTypeFields(pType, fields);
@@ -113,7 +113,7 @@ void Trace::MediaAnalyzer_ProcessMessage(MFT_MESSAGE_TYPE message)
 	g_LogChannel.LogEvent(L"MediaAnalyzer_ProcessMessage", fields);
 }
 
-void Trace::MediaAnalyzer_ProcessInput(IMFSample * pSample)
+void Trace::MediaAnalyzer_ProcessInput(IMFSample* pSample)
 {
 	auto fields = LoggingFields();
 	AddSampleFields(pSample, fields);
@@ -124,20 +124,20 @@ void Trace::MediaAnalyzer_ProcessOutput()
 	auto fields = LoggingFields();
 	g_LogChannel.LogEvent(L"MediaAnalyzer_ProcessOutput", fields);
 }
-void Trace::VisualizeControl_RecreateDevice(winrt::hresult_error const &err)
+void Trace::VisualizeControl_RecreateDevice(winrt::hresult_error const& err)
 {
 	auto fields = LoggingFields();
-	fields.AddInt32(L"HResult",err.code(),LoggingFieldFormat::Hexadecimal);
+	fields.AddInt32(L"HResult", err.code(), LoggingFieldFormat::Hexadecimal);
 	g_LogChannel.LogEvent(L"VisualizerControl_DeviceLost", fields);
 }
-void Trace::VisualizeControl_DrawLoopException(winrt::hresult_error const &err)
+void Trace::VisualizeControl_DrawLoopException(winrt::hresult_error const& err)
 {
 	auto fields = LoggingFields();
 	fields.AddInt32(L"HResult", err.code(), LoggingFieldFormat::Hexadecimal);
 	g_LogChannel.LogEvent(L"VisualizerControl_DeviceLost", fields);
 
 }
-LoggingActivity Trace::VisualizeControl_StartDraw(winrt::AudioVisualizer::VisualizationDataFrame const &frame, winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const & time)
+LoggingActivity Trace::VisualizeControl_StartDraw(winrt::AudioVisualizer::VisualizationDataFrame const& frame, winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const& time)
 {
 	auto fields = LoggingFields();
 	if (time) {
@@ -161,7 +161,7 @@ LoggingActivity Trace::VisualizeControl_StartDraw(winrt::AudioVisualizer::Visual
 	}
 	return g_LogChannel.StartActivity(L"VisualizationControl_Draw", fields);
 }
-void Trace::VisualizerAudioEffect_ProcessFrame(winrt::Windows::Media::AudioFrame const & frame)
+void Trace::VisualizerAudioEffect_ProcessFrame(winrt::Windows::Media::AudioFrame const& frame)
 {
 	auto fields = LoggingFields();
 	if (frame && frame.RelativeTime()) {
@@ -187,7 +187,7 @@ void Trace::VisualizerAudioEffect_ProcessFrame(winrt::Windows::Media::AudioFrame
 	g_LogChannel.LogEvent(L"VisualizerAudioEffect_ProcessFrame", fields);
 }
 
-void Trace::VisualizerAudioEffect_OnAnalyzerOutput(VisualizationDataFrame const & frame)
+void Trace::VisualizerAudioEffect_OnAnalyzerOutput(VisualizationDataFrame const& frame)
 {
 	auto fields = LoggingFields();
 	if (frame) {
@@ -196,7 +196,7 @@ void Trace::VisualizerAudioEffect_OnAnalyzerOutput(VisualizationDataFrame const 
 		else
 			fields.AddEmpty(L"Time");
 		fields.AddTimeSpan(L"Duration", frame.Duration());
-	} 
+	}
 	else
 	{
 		fields.AddEmpty(L"Time");
@@ -204,7 +204,7 @@ void Trace::VisualizerAudioEffect_OnAnalyzerOutput(VisualizationDataFrame const 
 	}
 	g_LogChannel.LogEvent(L"VisualizerAudioEffect_AnalyzerOutput", fields);
 }
-void Trace::VisualizerAudioEffect_GetData(VisualizationDataFrame const & frame)
+void Trace::VisualizerAudioEffect_GetData(VisualizationDataFrame const& frame)
 {
 	auto fields = LoggingFields();
 	if (frame) {
@@ -240,7 +240,7 @@ void Trace::MediaAnalyzer_AnalyzerOutput(winrt::AudioVisualizer::VisualizationDa
 	}
 	g_LogChannel.LogEvent(L"MediaAnalyzer_AnalyzerOutput", fields);
 }
-void Trace::MediaAnalyzer_GetFrame(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> time, winrt::AudioVisualizer::VisualizationDataFrame const & frame)
+void Trace::MediaAnalyzer_GetFrame(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> time, winrt::AudioVisualizer::VisualizationDataFrame const& frame)
 {
 	auto fields = LoggingFields();
 	if (time) {
@@ -262,7 +262,7 @@ void Trace::MediaAnalyzer_GetFrame(winrt::Windows::Foundation::IReference<winrt:
 	g_LogChannel.LogEvent(L"MediaAnalyzer_GetFrame", fields);
 }
 
-void Trace::MediaAnalyzer_OutputQueueAdd(VisualizationDataFrame const & frame, VisualizationDataFrame const & front, VisualizationDataFrame const & back, size_t queueSize)
+void Trace::MediaAnalyzer_OutputQueueAdd(VisualizationDataFrame const& frame, VisualizationDataFrame const& front, VisualizationDataFrame const& back, size_t queueSize)
 {
 	auto fields = LoggingFields();
 	if (frame) {
@@ -293,10 +293,10 @@ void Trace::MediaAnalyzer_OutputQueueAdd(VisualizationDataFrame const & frame, V
 		fields.AddEmpty(L"Back");
 	}
 	fields.AddUInt32(L"QueueSize", queueSize);
-	g_LogChannel.LogEvent(L"MediaAnalyzer_OutputQueueAdd", fields);	
+	g_LogChannel.LogEvent(L"MediaAnalyzer_OutputQueueAdd", fields);
 }
 
-void Trace::MediaAnalyzer_OutputQueueRemove(VisualizationDataFrame const & frame, size_t queueSize)
+void Trace::MediaAnalyzer_OutputQueueRemove(VisualizationDataFrame const& frame, size_t queueSize)
 {
 	auto fields = LoggingFields();
 	if (frame) {
@@ -312,7 +312,7 @@ void Trace::MediaAnalyzer_OutputQueueRemove(VisualizationDataFrame const & frame
 	g_LogChannel.LogEvent(L"MediaAnalyzer_OutputQueueRemove", fields);
 }
 
-void Trace::MediaAnalyzer_OutputQueueGet(winrt::Windows::Foundation::TimeSpan time, VisualizationDataFrame const & front, VisualizationDataFrame const & back, size_t queueSize)
+void Trace::MediaAnalyzer_OutputQueueGet(winrt::Windows::Foundation::TimeSpan time, VisualizationDataFrame const& front, VisualizationDataFrame const& back, size_t queueSize)
 {
 	auto fields = LoggingFields();
 	fields.AddTimeSpan(L"Time", time);
@@ -342,7 +342,7 @@ void Trace::MediaAnalyzer_OutputQueueBehind(winrt::Windows::Foundation::TimeSpan
 {
 	auto fields = LoggingFields();
 	fields.AddTimeSpan(L"FrontOfQueue", time);
-	g_LogChannel.LogEvent(L"MediaAnalyzer_OutputQueueBehind",fields);
+	g_LogChannel.LogEvent(L"MediaAnalyzer_OutputQueueBehind", fields);
 }
 
 void Trace::MediaAnalyzer_OutputQueueItemFound(winrt::Windows::Foundation::TimeSpan time)
@@ -367,7 +367,7 @@ void Trace::MediaAnalyzer_OutputQueueClear()
 	g_LogChannel.LogEvent(L"MediaAnalyzer_OutputQueueClear");
 }
 
-void Trace::AudioAnalyzer_ProcessInput(winrt::Windows::Media::AudioFrame const & frame)
+void Trace::AudioAnalyzer_ProcessInput(winrt::Windows::Media::AudioFrame const& frame)
 {
 	auto fields = LoggingFields();
 	if (frame && frame.RelativeTime()) {
@@ -396,7 +396,7 @@ void Trace::AudioAnalyzer_SeedFromPosition(int64_t position)
 	g_LogChannel.LogEvent(L"AudioAnalyzer_SeedFromPosition", fields);
 }
 
-void Trace::AudioAnalyzer_SeedFromStream(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const & time, int64_t position)
+void Trace::AudioAnalyzer_SeedFromStream(winrt::Windows::Foundation::IReference<winrt::Windows::Foundation::TimeSpan> const& time, int64_t position)
 {
 	auto fields = LoggingFields();
 	if (time) {
@@ -406,7 +406,7 @@ void Trace::AudioAnalyzer_SeedFromStream(winrt::Windows::Foundation::IReference<
 	g_LogChannel.LogEvent(L"AudioAnalyzer_SeedFromStream", fields);
 }
 
-void Trace::AddSampleFields(IMFSample * pSample, winrt::Windows::Foundation::Diagnostics::LoggingFields &fields)
+void Trace::AddSampleFields(IMFSample* pSample, winrt::Windows::Foundation::Diagnostics::LoggingFields& fields)
 {
 	LONGLONG sampleTime = 0;
 	pSample->GetSampleTime(&sampleTime);
@@ -419,7 +419,7 @@ void Trace::AddSampleFields(IMFSample * pSample, winrt::Windows::Foundation::Dia
 	fields.AddUInt32(L"ByteLength", totalLength);
 }
 
-void Trace::AddMediaTypeFields(IMFMediaType * pType, winrt::Windows::Foundation::Diagnostics::LoggingFields &fields)
+void Trace::AddMediaTypeFields(IMFMediaType* pType, winrt::Windows::Foundation::Diagnostics::LoggingFields& fields)
 {
 	com_ptr<ABI::Windows::Media::MediaProperties::IAudioEncodingProperties> abi_encoding;
 	check_hresult(MFCreatePropertiesFromMediaType(pType, __uuidof(ABI::Windows::Media::MediaProperties::IAudioEncodingProperties), abi_encoding.put_void()));
@@ -430,7 +430,7 @@ void Trace::AddMediaTypeFields(IMFMediaType * pType, winrt::Windows::Foundation:
 	fields.AddUInt32(L"BitsPerSample", encoding.BitsPerSample());
 }
 
-void Trace::SourceConverter_SourceConfigurationChanged(winrt::Windows::Foundation::IInspectable const & sender, winrt::hstring const &propertyName, winrt::Windows::Foundation::IInspectable const &self)
+void Trace::SourceConverter_SourceConfigurationChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::hstring const& propertyName, winrt::Windows::Foundation::IInspectable const& self)
 {
 	auto fields = LoggingFields();
 	if (sender) {
@@ -459,12 +459,12 @@ void Trace::PlaybackSource_CreateFromMediaPlayer()
 	g_LogChannel.LogEvent(L"PlaybackSource_CreateFromMediaPlayer");
 }
 
-void Trace::PlaybackSource_SourcePropertyChanged(winrt::Windows::Foundation::IInspectable const & sourceObject)
+void Trace::PlaybackSource_SourcePropertyChanged(winrt::Windows::Foundation::IInspectable const& sourceObject)
 {
 	auto fields = LoggingFields();
 	if (sourceObject) {
 		fields.AddString(L"Type", get_class_name(sourceObject));
-		fields.AddUInt32(L"Object", (uint32_t)(void*) get_abi(sourceObject),LoggingFieldFormat::Hexadecimal);
+		fields.AddUInt32(L"Object", (uint32_t)(void*)get_abi(sourceObject), LoggingFieldFormat::Hexadecimal);
 	}
 	else {
 		fields.AddString(L"Type", L"nullptr");

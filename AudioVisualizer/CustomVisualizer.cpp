@@ -1,6 +1,11 @@
 ﻿#include "pch.h"
+
 #include "CustomVisualizer.h"
 #include "Tracing.h"
+
+#include <StlLock.h>
+#include <mutex>
+
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Windows.UI.Composition.h>
 #include <winrt/Microsoft.Graphics.Canvas.UI.Composition.h>
@@ -10,25 +15,25 @@
 
 namespace winrt::AudioVisualizer::implementation
 {
-    event_token CustomVisualizer::Draw(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::VisualizerDrawEventArgs> const& handler)
-    {
+	event_token CustomVisualizer::Draw(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::VisualizerDrawEventArgs> const& handler)
+	{
 		return _drawEvent.add(handler);
-    }
+	}
 
-    void CustomVisualizer::Draw(event_token const& token)
-    {
+	void CustomVisualizer::Draw(event_token const& token)
+	{
 		_drawEvent.remove(token);
-    }
+	}
 
-    event_token CustomVisualizer::CreateResources(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::CreateResourcesEventArgs> const& handler)
-    {
+	event_token CustomVisualizer::CreateResources(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::CreateResourcesEventArgs> const& handler)
+	{
 		return _createResourcesEvent.add(handler);
-    }
+	}
 
-    void CustomVisualizer::CreateResources(event_token const& token)
-    {
+	void CustomVisualizer::CreateResources(event_token const& token)
+	{
 		_createResourcesEvent.remove(token);
-    }
+	}
 
 	AudioVisualizer::IVisualizationSource CustomVisualizer::Source()
 	{
@@ -63,14 +68,14 @@ namespace winrt::AudioVisualizer::implementation
 			Windows::UI::Core::CoreDispatcherPriority::Normal,
 			Windows::UI::Core::DispatchedHandler(
 				[this] {
-			CreateDevice();
-			Windows::Foundation::Size size;
-			size.Width = (float)ActualWidth();
-			size.Height = (float)ActualHeight();
-			CreateSwapChainWithSize(size);
-			auto args = make<CreateResourcesEventArgs>(CreateResourcesReason::DeviceLost, _swapChain);
-			_createResourcesEvent(*this, args);
-		}
+					CreateDevice();
+					Windows::Foundation::Size size;
+					size.Width = (float)ActualWidth();
+					size.Height = (float)ActualHeight();
+					CreateSwapChainWithSize(size);
+					auto args = make<CreateResourcesEventArgs>(CreateResourcesReason::DeviceLost, _swapChain);
+					_createResourcesEvent(*this, args);
+				}
 		));
 	}
 	void CustomVisualizer::InitializeSwapChain()

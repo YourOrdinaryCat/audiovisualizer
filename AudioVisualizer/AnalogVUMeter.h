@@ -8,8 +8,8 @@ using namespace winrt::Windows::Foundation::Numerics;
 
 namespace winrt::AudioVisualizer::implementation
 {
-    struct AnalogVUMeter : AnalogVUMeterT<AnalogVUMeter>
-    {
+	struct AnalogVUMeter : AnalogVUMeterT<AnalogVUMeter>
+	{
 	private:
 		Windows::UI::Composition::Compositor _compositor{ nullptr };
 		Windows::UI::Composition::CompositionGraphicsDevice _compositionDevice{ nullptr };
@@ -42,16 +42,16 @@ namespace winrt::AudioVisualizer::implementation
 		uint32_t _channelIndex = 0;
 
 		void UpdateDialPosition();
-		void PaintScale(const float2 &size);
-		float2 PointOnArc(float relativeValue,float relativeLength = 1.0f);
+		void PaintScale(const float2& size);
+		float2 PointOnArc(float relativeValue, float relativeLength = 1.0f);
 
-		void OnSizeChanged(IInspectable sender, Windows::UI::Xaml::SizeChangedEventArgs const &args);
-		void UpdateLayout(winrt::Windows::Foundation::Numerics::float2 &newSize);
-		void OnLoaded(IInspectable sender, Windows::UI::Xaml::RoutedEventArgs const &args);
-		void OnBackgroundChanged(Windows::UI::Xaml::DependencyObject const &sender, Windows::UI::Xaml::DependencyProperty const &dp);
-		void UpdateMeter(Windows::System::Threading::ThreadPoolTimer const &timer);
+		void OnSizeChanged(IInspectable sender, Windows::UI::Xaml::SizeChangedEventArgs const& args);
+		void UpdateLayout(winrt::Windows::Foundation::Numerics::float2& newSize);
+		void OnLoaded(IInspectable sender, Windows::UI::Xaml::RoutedEventArgs const& args);
+		void OnBackgroundChanged(Windows::UI::Xaml::DependencyObject const& sender, Windows::UI::Xaml::DependencyProperty const& dp);
+		void UpdateMeter(Windows::System::Threading::ThreadPoolTimer const& timer);
 	public:
-        AnalogVUMeter();
+		AnalogVUMeter();
 		AudioVisualizer::IVisualizationSource Source();
 		void Source(AudioVisualizer::IVisualizationSource const& value);
 		int32_t ChannelIndex();
@@ -78,12 +78,12 @@ namespace winrt::AudioVisualizer::implementation
 		void DialColor(Windows::UI::Color const& value);
 		float DialWidth();
 		void DialWidth(float value);
-    };
+	};
 }
 
 namespace winrt::AudioVisualizer::factory_implementation
 {
-    struct AnalogVUMeter : AnalogVUMeterT<AnalogVUMeter, implementation::AnalogVUMeter>
-    {
-    };
+	struct AnalogVUMeter : AnalogVUMeterT<AnalogVUMeter, implementation::AnalogVUMeter>
+	{
+	};
 }

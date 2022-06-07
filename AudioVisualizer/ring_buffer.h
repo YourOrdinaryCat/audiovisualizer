@@ -6,7 +6,7 @@ namespace AudioVisualizer
 		/*std::vector<float> _data;
 		std::vector<float>::const_iterator _readPointer;
 		std::vector<float>::iterator _writePointer;*/
-		float *_data;
+		float* _data;
 
 		size_t _stepFrames;
 		size_t _overlapFrames;
@@ -14,8 +14,8 @@ namespace AudioVisualizer
 		size_t _downsampleRate;
 		size_t _downsampleCounter;
 		size_t _size;
-		const float *_reader;
-		float *_writer;
+		const float* _reader;
+		float* _writer;
 
 	public:
 		int64_t readPositionFrameIndex;
@@ -31,9 +31,9 @@ namespace AudioVisualizer
 			_reader(nullptr),
 			_writer(nullptr)
 		{
-			
+
 		}
-		ring_buffer(size_t buffer_size,size_t frameSize,size_t stepFrames,size_t overlapFrames,size_t downsampleRate) :
+		ring_buffer(size_t buffer_size, size_t frameSize, size_t stepFrames, size_t overlapFrames, size_t downsampleRate) :
 			_stepFrames(stepFrames),
 			_overlapFrames(overlapFrames),
 			_frameSize(frameSize),
@@ -47,7 +47,7 @@ namespace AudioVisualizer
 
 		{
 			_size = frameSize * (buffer_size + 1);
-			_data = (float*) malloc( _size * sizeof(float));
+			_data = (float*)malloc(_size * sizeof(float));
 			flush();
 		}
 
@@ -58,8 +58,8 @@ namespace AudioVisualizer
 
 		size_t samples_in_buffer() const // Returns available data length in buffer in frames
 		{
-			return _reader <= _writer ? 
-				(size_t)(_writer - _reader) : 
+			return _reader <= _writer ?
+				(size_t)(_writer - _reader) :
 				_size - (_reader - _writer);
 		}
 
@@ -74,7 +74,7 @@ namespace AudioVisualizer
 
 		size_t downsampleRate() const { return _downsampleRate; }
 
-		void add_samples(const float *pSamples, size_t sampleCount);
-		void get_deinterleaved(float *pOutput, size_t outputBufferStride);
+		void add_samples(const float* pSamples, size_t sampleCount);
+		void get_deinterleaved(float* pOutput, size_t outputBufferStride);
 	};
 }

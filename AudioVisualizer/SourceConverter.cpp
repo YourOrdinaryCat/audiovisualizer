@@ -45,26 +45,26 @@ namespace winrt::AudioVisualizer::implementation
 			_sourceChanged = _source.ConfigurationChanged(
 				Windows::Foundation::TypedEventHandler<IVisualizationSource, hstring>(
 					[this](IVisualizationSource sender, hstring propertyName) {
-				// Source configuration changed
-				std::unique_lock lock(_lock);
+						// Source configuration changed
+						std::unique_lock lock(_lock);
 #ifdef _TRACE_
-				Trace::SourceConverter_SourceConfigurationChanged(sender,propertyName,*this);
+						Trace::SourceConverter_SourceConfigurationChanged(sender, propertyName, *this);
 #endif
-				if (propertyName == L"ChannelCount") {
-					ConfigureChannelMap();
-				}
-				CreateEmptyFrameFromSource();
-			})
+						if (propertyName == L"ChannelCount") {
+							ConfigureChannelMap();
+						}
+						CreateEmptyFrameFromSource();
+					})
 			);
 		}
 		_cachedOutputFrame = nullptr;
 		CreateEmptyFrameFromSource();
 		ConfigureChannelMap();
-		
+
 		lock.unlock();
 		_configurationChangedEvent(*this, hstring(L"Source"));
 	}
-	
+
 	void SourceConverter::CreateEmptyFrameFromSource()
 	{
 		_emptySourceFrame = nullptr;
@@ -82,15 +82,15 @@ namespace winrt::AudioVisualizer::implementation
 		if (enum_has_flag(_source.AnalyzerTypes(), AnalyzerType::Spectrum) && _source.ActualChannelCount() && _source.ActualFrequencyCount() && _source.ActualFrequencyScale() && _source.ActualMaxFrequency() && _source.ActualMinFrequency())
 		{
 			spectrum = SpectrumData::CreateEmpty(
-										_source.ActualChannelCount().Value(), 
-										_source.ActualFrequencyCount().Value(),
-										ScaleType::Linear, 
-										_source.ActualFrequencyScale().Value(), 
-										_source.ActualMinFrequency().Value(),
-										_source.ActualMaxFrequency().Value()
-					);
+				_source.ActualChannelCount().Value(),
+				_source.ActualFrequencyCount().Value(),
+				ScaleType::Linear,
+				_source.ActualFrequencyScale().Value(),
+				_source.ActualMinFrequency().Value(),
+				_source.ActualMaxFrequency().Value()
+			);
 		}
-		
+
 		_emptySourceFrame = AudioVisualizer::VisualizationDataFrame(
 			nullptr,
 			Windows::Foundation::TimeSpan((REFERENCE_TIME)(1e7 / _source.Fps())),
@@ -108,7 +108,7 @@ namespace winrt::AudioVisualizer::implementation
 	void SourceConverter::FrequencyCount(Windows::Foundation::IReference<uint32_t> const& value)
 	{
 		std::unique_lock lock(_lock);
-	
+
 		if (value && value.GetUInt32() == 0) {
 			throw hresult_invalid_argument();
 		}
@@ -118,7 +118,7 @@ namespace winrt::AudioVisualizer::implementation
 
 		_frequencyCount = value;
 		_cachedOutputFrame = nullptr;
-		
+
 		lock.unlock();	// Unlock before calling changed event
 		_configurationChangedEvent(*this, hstring(L"FrequencyCount"));
 	}
@@ -158,7 +158,7 @@ namespace winrt::AudioVisualizer::implementation
 		lock.unlock();
 
 		_configurationChangedEvent(*this, hstring(L"ChannelCount"));
-		
+
 	}
 
 	com_array<float> SourceConverter::ChannelMapping()
@@ -229,7 +229,7 @@ namespace winrt::AudioVisualizer::implementation
 						_channelCombineMap = { 1.0f,1.0f };
 						break;
 					case 3:	// 2.1 to stereo
-						_channelCombineMap = {	1.0f,0.0f,0.0f, 
+						_channelCombineMap = { 1.0f,0.0f,0.0f,
 												0.0f,1.0f,0.0f };
 						break;
 					case 4: // Quadro to stereo
@@ -237,11 +237,11 @@ namespace winrt::AudioVisualizer::implementation
 												0.0f,1.0f,0.0f,1.0f };
 						break;
 					case 5: // Surround to stereo
-						_channelCombineMap = {	1.0f,0.0f,0.0f,1.0f,0.0f,
+						_channelCombineMap = { 1.0f,0.0f,0.0f,1.0f,0.0f,
 												0.0f,1.0f,0.0f,0.0f,1.0f };
 						break;
 					case 6: // 5.1 Surround to stereo
-						_channelCombineMap = {	1.0f,0.0f,0.0f,0.0f,1.0f,0.0f,
+						_channelCombineMap = { 1.0f,0.0f,0.0f,0.0f,1.0f,0.0f,
 												0.0f,1.0f,0.0f,0.0f,0.0f,1.0f };
 						break;
 					default:
@@ -401,7 +401,7 @@ namespace winrt::AudioVisualizer::implementation
 
 		_rmsFallTime = value;
 		_cachedOutputFrame = nullptr;
-		
+
 		lock.unlock();
 		_configurationChangedEvent(*this, hstring(L"RmsFallTime"));
 	}
@@ -682,7 +682,7 @@ namespace winrt::AudioVisualizer::implementation
 
 		auto sinceLastGet = _sourceTimer.time() - _sourceGetTime;
 		// If there is cached source which was aquired less than 10ms ago just return cached output
-		if (_bCacheData && sinceLastGet < getNewDataThreshold) 
+		if (_bCacheData && sinceLastGet < getNewDataThreshold)
 		{
 			return _cachedOutputFrame;
 		}
@@ -691,7 +691,7 @@ namespace winrt::AudioVisualizer::implementation
 		_sourceGetTime = _sourceTimer.time();
 		auto sourceFrameTimeStamp = _sourceTimer.time();
 
-		if ( sourceFrame &&
+		if (sourceFrame &&
 			_analyzerTypes == AnalyzerType::All &&	// No analyzer changes
 			!_minFrequency && !_maxFrequency && !_frequencyCount && !_frequencyScale &&	// No frequency changes
 			!_channelCount &&
@@ -715,10 +715,10 @@ namespace winrt::AudioVisualizer::implementation
 		return result;
 	}
 
-	AudioVisualizer::VisualizationDataFrame SourceConverter::ProcessFrame(AudioVisualizer::VisualizationDataFrame const & source)
+	AudioVisualizer::VisualizationDataFrame SourceConverter::ProcessFrame(AudioVisualizer::VisualizationDataFrame const& source)
 	{
 		AudioVisualizer::ScalarData rms = enum_has_flag(_analyzerTypes, AnalyzerType::RMS) && source.RMS() ? source.RMS() : nullptr;
-		AudioVisualizer::ScalarData peak = enum_has_flag(_analyzerTypes, AnalyzerType::Peak) && source.Peak() ? source.Peak() :  nullptr ;
+		AudioVisualizer::ScalarData peak = enum_has_flag(_analyzerTypes, AnalyzerType::Peak) && source.Peak() ? source.Peak() : nullptr;
 		AudioVisualizer::SpectrumData spectrum = enum_has_flag(_analyzerTypes, AnalyzerType::Spectrum) && source.Spectrum() ? source.Spectrum() : nullptr;
 
 		if (spectrum)
@@ -746,13 +746,13 @@ namespace winrt::AudioVisualizer::implementation
 			}
 			peak = ApplyRiseAndFall(peak, _previousPeak, _peakRiseTime, _peakFallTime);
 			_previousPeak = peak;
-		}		
+		}
 		auto result = AudioVisualizer::VisualizationDataFrame(source.Time(), source.Duration(), rms, peak, spectrum);
 		return result;
 	}
 
 
-	AudioVisualizer::VisualizationDataFrame SourceConverter::CloneFrame(AudioVisualizer::VisualizationDataFrame const &frameToClone)
+	AudioVisualizer::VisualizationDataFrame SourceConverter::CloneFrame(AudioVisualizer::VisualizationDataFrame const& frameToClone)
 	{
 		// Clone empty frame from output frame
 		AudioVisualizer::ScalarData rms{ nullptr };
@@ -790,7 +790,7 @@ namespace winrt::AudioVisualizer::implementation
 		auto actualFrequencyScale = ActualFrequencyScaleImpl();
 		UINT32 frequencyCount = actualFrequencyCount ? actualFrequencyCount.Value() : data.Size();
 		float minFrequency = actualMinFrequency ? actualMinFrequency.Value() : data.MinFrequency();
-		float maxFrequency = actualMaxFrequency? actualMaxFrequency.Value() : data.MaxFrequency();
+		float maxFrequency = actualMaxFrequency ? actualMaxFrequency.Value() : data.MaxFrequency();
 
 		ScaleType fScale = actualFrequencyScale ? actualFrequencyScale.Value() : data.FrequencyScale();
 

@@ -2,7 +2,7 @@ import "VisualizationSource.idl";
 
 namespace AudioVisualizer
 {
-	
+
 	struct MeterScaleSection {
 		Single Start;
 		Single Length;

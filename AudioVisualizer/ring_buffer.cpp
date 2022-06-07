@@ -4,14 +4,14 @@
 namespace AudioVisualizer
 {
 	/* Add specified number of samples to the ring buffer. Downsample if neccessary */
-	void ring_buffer::add_samples(const float * pSamples, size_t sampleCount)
+	void ring_buffer::add_samples(const float* pSamples, size_t sampleCount)
 	{
 		if (_data == nullptr)
 			throw winrt::hresult_error(E_NOT_VALID_STATE);
 
 		// The buffer needs to be as large to fit all samples + one frame
 		if (sampleCount > _downsampleRate * (_size - _frameSize))
-			throw winrt::hresult_invalid_argument(L"Audio frame larger than the buffer");	
+			throw winrt::hresult_invalid_argument(L"Audio frame larger than the buffer");
 
 		size_t samplesInBufferBeforeAdd = samples_in_buffer();	// Record current samples in buffer
 		size_t samplesCopied = sampleCount / _downsampleRate;
@@ -19,8 +19,8 @@ namespace AudioVisualizer
 		// Copy sampleCount number of samples to the buffer, validate _writeIndex against _size 
 		// To avoid copying when size is zero (uninitialized buffer)
 
-		const float *source = pSamples;
-		for (size_t sampleIndex = 0; sampleIndex < sampleCount; sampleIndex++,source++)
+		const float* source = pSamples;
+		for (size_t sampleIndex = 0; sampleIndex < sampleCount; sampleIndex++, source++)
 		{
 			// Copy input samples if no downsampling or copying the samples from first frame
 			if (_downsampleRate == 1 || _downsampleCounter < _frameSize)
@@ -51,7 +51,7 @@ namespace AudioVisualizer
 			readPositionFrameIndex += (samplesInBufferBeforeAdd + samplesCopied - _size) / _frameSize;
 		}
 	}
-	void ring_buffer::get_deinterleaved(float * pOutput, size_t outputBufferStride)
+	void ring_buffer::get_deinterleaved(float* pOutput, size_t outputBufferStride)
 	{
 		if (_data == nullptr)
 			throw winrt::hresult_error(E_NOT_VALID_STATE);
@@ -67,10 +67,10 @@ namespace AudioVisualizer
 		auto readIndex = _reader - _data;
 
 		// Create source iterator counting back overlap samples from current read position
-		const float *source = 
-			readIndex >= overlapSamples ? 
-				_reader - overlapSamples : 
-				_data + (_size - (overlapSamples - readIndex));
+		const float* source =
+			readIndex >= overlapSamples ?
+			_reader - overlapSamples :
+			_data + (_size - (overlapSamples - readIndex));
 
 		// Iterate over all the output items
 		for (size_t frameIndex = 0; frameIndex < outputBufferStride; frameIndex++)

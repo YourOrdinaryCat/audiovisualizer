@@ -184,7 +184,7 @@ namespace winrt::AudioVisualizer::implementation
 		return mediaProperties;
 	}
 
-	void AudioSourceReader::Format(Windows::Media::MediaProperties::IMediaEncodingProperties const & format)
+	void AudioSourceReader::Format(Windows::Media::MediaProperties::IMediaEncodingProperties const& format)
 	{
 		if (!reader) {
 			throw hresult_error(RO_E_CLOSED);

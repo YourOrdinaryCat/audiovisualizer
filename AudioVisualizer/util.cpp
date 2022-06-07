@@ -6,7 +6,7 @@
 util::performance_frequency util::stopwatch::_frequency;
 
 
-winrt::Windows::UI::Composition::CompositionBrush util::make_composition_brush(winrt::Windows::UI::Xaml::Media::Brush const & xamlBrush,winrt::Windows::UI::Composition::Compositor const & compositor)
+winrt::Windows::UI::Composition::CompositionBrush util::make_composition_brush(winrt::Windows::UI::Xaml::Media::Brush const& xamlBrush, winrt::Windows::UI::Composition::Compositor const& compositor)
 {
 	using namespace winrt::Windows::UI::Composition;
 	using namespace winrt::Windows::UI::Xaml::Media;
@@ -29,7 +29,7 @@ winrt::Windows::UI::Composition::CompositionBrush util::make_composition_brush(w
 		gradientBrush.StartPoint(gradientBrush.StartPoint());
 		gradientBrush.EndPoint(gradientBrush.EndPoint());
 		for (auto gradientStop : xamlLinearGradientBrush.GradientStops()) {
-			auto compGradientStop = compositor.CreateColorGradientStop((float) gradientStop.Offset(), gradientStop.Color());
+			auto compGradientStop = compositor.CreateColorGradientStop((float)gradientStop.Offset(), gradientStop.Color());
 			gradientBrush.ColorStops().Append(compGradientStop);
 		}
 		result = gradientBrush;

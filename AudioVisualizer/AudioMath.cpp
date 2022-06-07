@@ -8,7 +8,7 @@ namespace AudioMath
 	float g_fDbScaler = 8.6858896f;
 	float g_fDbInverseScaler = 0.1151293f;
 
-	void ConvertToLogarithmic(const DirectX::XMVECTOR * pSource, DirectX::XMVECTOR * pResult, size_t count, float clampLow, float clampHigh, float scaler)
+	void ConvertToLogarithmic(const DirectX::XMVECTOR* pSource, DirectX::XMVECTOR* pResult, size_t count, float clampLow, float clampHigh, float scaler)
 	{
 		using namespace DirectX;
 		XMVECTOR vLogScaler = XMVectorReplicate(scaler);
@@ -24,7 +24,7 @@ namespace AudioMath
 		}
 	}
 
-	void ConvertToLinear(const DirectX::XMVECTOR * pSource, DirectX::XMVECTOR * pResult, size_t count, float scaler)
+	void ConvertToLinear(const DirectX::XMVECTOR* pSource, DirectX::XMVECTOR* pResult, size_t count, float scaler)
 	{
 		using namespace DirectX;
 		XMVECTOR vExpScaler = XMVectorReplicate(scaler);
@@ -34,9 +34,9 @@ namespace AudioMath
 		}
 	}
 
-	void ApplyRiseAndFall(const DirectX::XMVECTOR *pPrevious,
-		const DirectX::XMVECTOR *pCurrent,
-		DirectX::XMVECTOR *pResult,
+	void ApplyRiseAndFall(const DirectX::XMVECTOR* pPrevious,
+		const DirectX::XMVECTOR* pCurrent,
+		DirectX::XMVECTOR* pResult,
 		size_t count, float riseByT, float fallByT)
 	{
 		using namespace DirectX;
@@ -55,28 +55,28 @@ namespace AudioMath
 
 	namespace Internal
 	{
-		float _AreaOfElementFromStart(const float *pInput, size_t inputSize, int elementIndex, float x)
+		float _AreaOfElementFromStart(const float* pInput, size_t inputSize, int elementIndex, float x)
 		{
-			float value = elementIndex < (int)inputSize && elementIndex >= 0 ? pInput[elementIndex] : 0;
+			float value = elementIndex < (int)inputSize&& elementIndex >= 0 ? pInput[elementIndex] : 0;
 			float nextValue = elementIndex + 1 < (int)inputSize && elementIndex + 1 >= 0 ? pInput[elementIndex + 1] : 0;
-			return (x*(2 * value + x * (nextValue - value))) / 2;
+			return (x * (2 * value + x * (nextValue - value))) / 2;
 		}
 
-		float _AreaOfElementToEnd(const float *pInput, size_t inputSize, int elementIndex, float x)
+		float _AreaOfElementToEnd(const float* pInput, size_t inputSize, int elementIndex, float x)
 		{
-			float value = elementIndex < (int)inputSize && elementIndex >= 0 ? pInput[elementIndex] : 0;
+			float value = elementIndex < (int)inputSize&& elementIndex >= 0 ? pInput[elementIndex] : 0;
 			float nextValue = elementIndex + 1 < (int)inputSize && elementIndex + 1 >= 0 ? pInput[elementIndex + 1] : 0;
-			return ((1 - x)*(value + nextValue + x * (nextValue - value))) / 2;
+			return ((1 - x) * (value + nextValue + x * (nextValue - value))) / 2;
 		}
-		float _AreaOfElement(const float *pInput, size_t inputSize, int elementIndex, float x1, float x2)
+		float _AreaOfElement(const float* pInput, size_t inputSize, int elementIndex, float x1, float x2)
 		{
-			float value = elementIndex < (int)inputSize && elementIndex >= 0 ? pInput[elementIndex] : 0;
+			float value = elementIndex < (int)inputSize&& elementIndex >= 0 ? pInput[elementIndex] : 0;
 			float nextValue = elementIndex + 1 < (int)inputSize && elementIndex + 1 >= 0 ? pInput[elementIndex + 1] : 0;
-			return ((x1 - x2)*(x1*(value - nextValue) - 2 * value + x2 * (value - nextValue))) / 2;
+			return ((x1 - x2) * (x1 * (value - nextValue) - 2 * value + x2 * (value - nextValue))) / 2;
 		}
 	}
 
-	void SpectrumTransform(const float *pInput, size_t inputSize, float fromIndex, float toIndex, float *pOutput, size_t outputSize, bool bLinear)
+	void SpectrumTransform(const float* pInput, size_t inputSize, float fromIndex, float toIndex, float* pOutput, size_t outputSize, bool bLinear)
 	{
 		float inStep = bLinear == true ? (toIndex - fromIndex) / (float)outputSize : powf(toIndex / fromIndex, 1.0f / (float)(outputSize));
 		float inIndex = fromIndex;
@@ -121,7 +121,7 @@ namespace AudioMath
 		}
 
 	}
-	void SpectrumLogTransform(const float * pInput, size_t inputSize, float fromIndex, float toIndex, float * pOutput, size_t outputSize)
+	void SpectrumLogTransform(const float* pInput, size_t inputSize, float fromIndex, float toIndex, float* pOutput, size_t outputSize)
 	{
 		float inStep = powf(toIndex / fromIndex, 1.0f / outputSize);
 		float inIndex = fromIndex;
@@ -160,7 +160,7 @@ namespace AudioMath
 					float x2 = nextInIndex - inValueIntIndex;
 					outValue = (x1 * dy + pInput[inValueIntIndex]) * (x2 - x1) + dy * (x2 - x1) / 2;
 				}
-				float current = inValueIntIndex < (int)inputSize && inValueIntIndex >= 0 ? pInput[inValueIntIndex] : 0;
+				float current = inValueIntIndex < (int)inputSize&& inValueIntIndex >= 0 ? pInput[inValueIntIndex] : 0;
 				outValue = current * inStep;
 			}
 			pOutput[outIndex] = outValue;
@@ -169,7 +169,7 @@ namespace AudioMath
 			nextInIndex = inIndex * inStep;
 		}
 	}
-	void CombineChannels(DirectX::XMVECTOR **pSource, size_t sourceCount, size_t sourcevLength, float * pMap, DirectX::XMVECTOR * pDest)
+	void CombineChannels(DirectX::XMVECTOR** pSource, size_t sourceCount, size_t sourcevLength, float* pMap, DirectX::XMVECTOR* pDest)
 	{
 		using namespace DirectX;
 		for (size_t index = 0; index < sourcevLength; index++)

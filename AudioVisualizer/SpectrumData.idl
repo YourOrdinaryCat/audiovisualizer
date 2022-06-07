@@ -17,13 +17,13 @@ namespace AudioVisualizer
 		SpectrumData LogarithmicTransform(UInt32 elementCount,Single fromFrequency,Single toFrequency);
 		SpectrumData ApplyRiseAndFall(SpectrumData previous,Windows.Foundation.TimeSpan riseTime,Windows.Foundation.TimeSpan fallTime,Windows.Foundation.TimeSpan timeFromPrevious);
 		SpectrumData ConvertToDecibels(Single minValue,Single maxValue);
-		SpectrumData CombineChannels(Single [] map);
+		SpectrumData CombineChannels(Single[] map);
 		Single GetFrequency(UInt32 elementIndex);
 		Single GetCenterFrequency(UInt32 elementIndex);
 
 
 		static SpectrumData CreateEmpty(UInt32 cChannels, UInt32 cElements, ScaleType amplitudeScale, ScaleType frequencyScale, Single minFrequency, Single maxFrequency);
-		static SpectrumData Create(Single [] values, UInt32 cChannels, ScaleType amplitudeScale, ScaleType frequencyScale, Single minFrequency, Single maxFrequency);
+		static SpectrumData Create(Single[] values, UInt32 cChannels, ScaleType amplitudeScale, ScaleType frequencyScale, Single minFrequency, Single maxFrequency);
 		static SpectrumData ApplyRiseAndFallToEmpty(SpectrumData previous, Windows.Foundation.TimeSpan riseTime, Windows.Foundation.TimeSpan fallTime, Windows.Foundation.TimeSpan timeFromPrevious);
 	}
 }

@@ -5,12 +5,12 @@
 
 namespace winrt::AudioVisualizer::implementation
 {
-    AudioVisualizer::IVisualizationSource PlaybackSource::Source()
-    {
+	AudioVisualizer::IVisualizationSource PlaybackSource::Source()
+	{
 		return _source;
-    }
+	}
 
-	event_token PlaybackSource::SourceChanged(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable,AudioVisualizer::IVisualizationSource> const& handler)
+	event_token PlaybackSource::SourceChanged(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::IVisualizationSource> const& handler)
 	{
 		return _sourceChangedEvent.add(handler);
 	}
@@ -23,17 +23,18 @@ namespace winrt::AudioVisualizer::implementation
 	PlaybackSource::PlaybackSource()
 	{
 		_propSet = Windows::Foundation::Collections::PropertySet();
-		_propSet.MapChanged([this](IInspectable const &, Windows::Foundation::Collections::IMapChangedEventArgs<hstring> const &args)
-		{
-			if (args.Key() == L"Source") {
-				auto source = _propSet.Lookup(args.Key()).as<AudioVisualizer::IVisualizationSource>();
-				this->_source = source;
+		_propSet.MapChanged([this](IInspectable const&, Windows::Foundation::Collections::IMapChangedEventArgs<hstring> const& args)
+			{
+				if (args.Key() == L"Source") {
+					auto source = _propSet.Lookup(args.Key()).as<AudioVisualizer::IVisualizationSource>();
+					this->_source = source;
+					this->_source = source;
 #ifdef _TRACE_
-				Trace::PlaybackSource_SourcePropertyChanged(source);
+					Trace::PlaybackSource_SourcePropertyChanged(source);
 #endif
-				_sourceChangedEvent(*this, source);
-			}
-		});
+					_sourceChangedEvent(*this, source);
+				}
+			});
 	}
 
 	PlaybackSource::PlaybackSource(Windows::Media::Playback::MediaPlayer const& mediaPlayer) : PlaybackSource()
@@ -47,12 +48,12 @@ namespace winrt::AudioVisualizer::implementation
 		mediaPlayer.AddAudioEffect(L"AudioVisualizer.MediaAnalyzer", false, _propSet);
 	}
 
-	PlaybackSource::PlaybackSource(Windows::Media::Audio::IAudioNode const & node) : PlaybackSource()
+	PlaybackSource::PlaybackSource(Windows::Media::Audio::IAudioNode const& node) : PlaybackSource()
 	{
 		if (!node)
 			throw hresult_invalid_argument();
 		auto effect = make<VisualizerEffectDefinition>(_propSet);
-		
+
 		if (!node.EffectDefinitions())
 			throw hresult_error(E_NOT_VALID_STATE);
 
@@ -63,7 +64,7 @@ namespace winrt::AudioVisualizer::implementation
 	{
 		return make<PlaybackSource>(mediaPlayer);
 	}
-	AudioVisualizer::PlaybackSource PlaybackSource::CreateFromAudioNode(Windows::Media::Audio::IAudioNode const & audioNode)
+	AudioVisualizer::PlaybackSource PlaybackSource::CreateFromAudioNode(Windows::Media::Audio::IAudioNode const& audioNode)
 	{
 		return make<PlaybackSource>(audioNode);
 	}

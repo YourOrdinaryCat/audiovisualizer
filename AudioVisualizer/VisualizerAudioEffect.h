@@ -2,11 +2,12 @@
 
 #include "VisualizerAudioEffect.g.h"
 #include "AudioAnalyzer.h"
+#include <mutex>
 
 namespace winrt::AudioVisualizer::implementation
 {
-    struct VisualizerAudioEffect : VisualizerAudioEffectT<VisualizerAudioEffect>
-    {
+	struct VisualizerAudioEffect : VisualizerAudioEffectT<VisualizerAudioEffect>
+	{
 		AudioVisualizer::AudioAnalyzer _analyzer{ nullptr };
 		Windows::Media::MediaProperties::AudioEncodingProperties _encoding{ nullptr };
 		AudioVisualizer::VisualizationDataFrame _outputFrame{ nullptr };
@@ -19,9 +20,9 @@ namespace winrt::AudioVisualizer::implementation
 
 		AnalyzerType _analyzerTypes;
 		void CreateAnalyzer();
-		void OnAnalyzerOutput(AudioVisualizer::AudioAnalyzer const&analyzer, AudioVisualizer::VisualizationDataFrame const&frame);
+		void OnAnalyzerOutput(AudioVisualizer::AudioAnalyzer const& analyzer, AudioVisualizer::VisualizationDataFrame const& frame);
 
-        VisualizerAudioEffect();
+		VisualizerAudioEffect();
 		bool UseInputFrameForOutput();
 		Windows::Foundation::Collections::IVectorView<Windows::Media::MediaProperties::AudioEncodingProperties> SupportedEncodingProperties();
 		void SetEncodingProperties(Windows::Media::MediaProperties::AudioEncodingProperties const& encodingProperties);
@@ -46,7 +47,7 @@ namespace winrt::AudioVisualizer::implementation
 		void ConfigurationChanged(event_token const& token);
 		void SetProperties(Windows::Foundation::Collections::IPropertySet const& configuration);
 		void ConfigureSpectrum(uint32_t fftLength, float overlap);
-    };
+	};
 }
 
 namespace winrt::AudioVisualizer::factory_implementation

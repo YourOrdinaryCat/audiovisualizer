@@ -22,7 +22,7 @@ namespace winrt::AudioVisualizer::implementation
 		using namespace Windows::UI::Xaml::Hosting;
 		using namespace Windows::Foundation::Numerics;
 
-		
+
 		_scaleSections =
 		{
 			MeterScaleSection() = { 0.0f,0.66f,Windows::UI::Colors::Black(),3.0f },
@@ -53,7 +53,7 @@ namespace winrt::AudioVisualizer::implementation
 		ElementCompositionPreview::SetElementChildVisual(*this, _meterVisual);
 
 		_meterBackgroundVisual = _compositor.CreateSpriteVisual();
-		_meterBackgroundVisual.Brush(util::make_composition_brush(Background(),_compositor));
+		_meterBackgroundVisual.Brush(util::make_composition_brush(Background(), _compositor));
 		_meterVisual.Children().InsertAtBottom(_meterBackgroundVisual);
 
 		_dialBrush = _compositor.CreateColorBrush(Windows::UI::Colors::Red());
@@ -85,7 +85,7 @@ namespace winrt::AudioVisualizer::implementation
 		return _source;
 	}
 
-	void AnalogVUMeter::Source(AudioVisualizer::IVisualizationSource const & value)
+	void AnalogVUMeter::Source(AudioVisualizer::IVisualizationSource const& value)
 	{
 		_source = value;
 	}
@@ -252,7 +252,7 @@ namespace winrt::AudioVisualizer::implementation
 		return _scaleArcCenterPoint + relativeLength * _scaleArcRadius * float2(cosf(angle), sinf(angle));
 	}
 
-	void AnalogVUMeter::PaintScale(const float2 &size)
+	void AnalogVUMeter::PaintScale(const float2& size)
 	{
 		if (size.x == 0 || size.y == 0)
 			return;
@@ -301,7 +301,7 @@ namespace winrt::AudioVisualizer::implementation
 		_scaleVisual.Brush(scaleBrush);
 	}
 
-	void AnalogVUMeter::OnSizeChanged(IInspectable sender, Windows::UI::Xaml::SizeChangedEventArgs const & args)
+	void AnalogVUMeter::OnSizeChanged(IInspectable sender, Windows::UI::Xaml::SizeChangedEventArgs const& args)
 	{
 		using namespace Windows::Foundation::Numerics;
 		float2 newSize = float2((float)args.NewSize().Width, (float)args.NewSize().Height);
@@ -310,7 +310,7 @@ namespace winrt::AudioVisualizer::implementation
 		_scaleVisual.Size(newSize);
 		UpdateLayout(newSize);
 	}
-	void AnalogVUMeter::UpdateLayout(winrt::Windows::Foundation::Numerics::float2 &size)
+	void AnalogVUMeter::UpdateLayout(winrt::Windows::Foundation::Numerics::float2& size)
 	{
 		// Recalculate internal metrics
 		_scaleArcCenterPoint = size * _dialRelativeFixPoint;
@@ -328,15 +328,15 @@ namespace winrt::AudioVisualizer::implementation
 		PaintScale(size);
 	}
 
-	void AnalogVUMeter::OnLoaded(IInspectable sender, Windows::UI::Xaml::RoutedEventArgs const &)
+	void AnalogVUMeter::OnLoaded(IInspectable sender, Windows::UI::Xaml::RoutedEventArgs const&)
 	{
 		Windows::System::Threading::ThreadPoolTimer::CreatePeriodicTimer(Windows::System::Threading::TimerElapsedHandler(this, &AnalogVUMeter::UpdateMeter), Windows::Foundation::TimeSpan(166667));	// Fire 60 times per second
 	}
-	void AnalogVUMeter::OnBackgroundChanged(Windows::UI::Xaml::DependencyObject const &, Windows::UI::Xaml::DependencyProperty const &)
+	void AnalogVUMeter::OnBackgroundChanged(Windows::UI::Xaml::DependencyObject const&, Windows::UI::Xaml::DependencyProperty const&)
 	{
-		_meterBackgroundVisual.Brush(util::make_composition_brush(Background(),_compositor));
+		_meterBackgroundVisual.Brush(util::make_composition_brush(Background(), _compositor));
 	}
-	void AnalogVUMeter::UpdateMeter(Windows::System::Threading::ThreadPoolTimer const &)
+	void AnalogVUMeter::UpdateMeter(Windows::System::Threading::ThreadPoolTimer const&)
 	{
 		_meterValue = 0.0f;
 		if (_source) {

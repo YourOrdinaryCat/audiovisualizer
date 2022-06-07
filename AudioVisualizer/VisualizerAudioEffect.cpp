@@ -11,20 +11,20 @@ namespace winrt::AudioVisualizer::implementation
 		_fOverlap(0.5f),
 		_fftLength(2048)
 	{
-		
+
 	}
 
-    bool VisualizerAudioEffect::UseInputFrameForOutput()
-    {
+	bool VisualizerAudioEffect::UseInputFrameForOutput()
+	{
 		return true;
-    }
+	}
 
 	Windows::Foundation::Collections::IVectorView<Windows::Media::MediaProperties::AudioEncodingProperties> g_SupportedEncodings{ nullptr };
 
 	Windows::Foundation::Collections::IVectorView<Windows::Media::MediaProperties::AudioEncodingProperties> VisualizerAudioEffect::SupportedEncodingProperties()
 	{
 		if (!g_SupportedEncodings) {
-			std::vector<uint32_t> supportedSampleRates{ 8000,11025,16000,22050,32000,44100,48000,96000,192000};
+			std::vector<uint32_t> supportedSampleRates{ 8000,11025,16000,22050,32000,44100,48000,96000,192000 };
 			std::vector<uint32_t> supportedChannelCounts{ 1,2,5 };
 			std::vector<Windows::Media::MediaProperties::AudioEncodingProperties> properties;
 			for (uint32_t sampleRate : supportedSampleRates)
@@ -33,7 +33,7 @@ namespace winrt::AudioVisualizer::implementation
 				{
 					auto encoding = Windows::Media::MediaProperties::AudioEncodingProperties::CreatePcm(sampleRate, channelCount, 32);
 					encoding.Subtype(L"Float");
-					properties.insert(std::end(properties),encoding);
+					properties.insert(std::end(properties), encoding);
 				}
 			}
 			g_SupportedEncodings = single_threaded_vector(std::move(properties)).GetView();
@@ -93,7 +93,7 @@ namespace winrt::AudioVisualizer::implementation
 
 	void VisualizerAudioEffect::IsSuspended(bool value)
 	{
-		if (_analyzer) 
+		if (_analyzer)
 			_analyzer.IsSuspended(value);
 	}
 
@@ -102,7 +102,7 @@ namespace winrt::AudioVisualizer::implementation
 		return _fOutputFps;
 	}
 
-	void VisualizerAudioEffect::Fps(float )
+	void VisualizerAudioEffect::Fps(float)
 	{
 		throw hresult_not_implemented();
 	}
@@ -174,15 +174,15 @@ namespace winrt::AudioVisualizer::implementation
 		_configurationChangedEvent.remove(token);
 	}
 
-    void VisualizerAudioEffect::SetProperties(Windows::Foundation::Collections::IPropertySet const& configuration)
-    {
+	void VisualizerAudioEffect::SetProperties(Windows::Foundation::Collections::IPropertySet const& configuration)
+	{
 		configuration.Insert(L"Source", *this);
 		configuration.Insert(L"Type", winrt::box_value(name_of<AudioVisualizer::VisualizerAudioEffect>().data()));
 	}
 
 	void VisualizerAudioEffect::ConfigureSpectrum(uint32_t fftLength, float overlap)
 	{
-		if ((fftLength & fftLength - 1) != 0 || fftLength  < 256)	// FFT length needs to be power of 2
+		if ((fftLength & fftLength - 1) != 0 || fftLength < 256)	// FFT length needs to be power of 2
 			throw hresult_invalid_argument();
 
 		if (overlap < 0.0f || overlap > 1.0f)	// Set some sensible overlap limits
@@ -220,5 +220,5 @@ namespace winrt::AudioVisualizer::implementation
 #endif
 		_outputFrame = frame;
 	}
-	
+
 }

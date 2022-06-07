@@ -7,7 +7,10 @@
 #include <winrt/Windows.Foundation.Numerics.h>
 #include <winrt/Windows.System.Threading.h>
 #include <winrt/Windows.UI.Core.h>
+
+#include <mutex>
 #include <set>
+
 #include "util.h"
 
 namespace winrt::AudioVisualizer::implementation
@@ -16,7 +19,7 @@ namespace winrt::AudioVisualizer::implementation
 	struct BarVisualizerBase
 	{
 	private:
-		ControlType * derived_this() { return static_cast<ControlType *>(this); }
+		ControlType* derived_this() { return static_cast<ControlType*>(this); }
 
 	protected:
 		unsigned _barCount;
@@ -41,8 +44,8 @@ namespace winrt::AudioVisualizer::implementation
 		Windows::UI::Composition::CompositionBrush _backgroundBrush{ nullptr };
 		Windows::UI::Composition::CompositionBrush _unlitElementBrush{ nullptr };
 		Windows::UI::Composition::CompositionBrush _auxElementBrush{ nullptr };
-		Windows::UI::Composition::CompositionBrush _shadowMask{nullptr};
-		AudioVisualizer::IBarElementFactory _elementFactory { nullptr };
+		Windows::UI::Composition::CompositionBrush _shadowMask{ nullptr };
+		AudioVisualizer::IBarElementFactory _elementFactory{ nullptr };
 
 		Windows::System::Threading::ThreadPoolTimer _updateTimer{ nullptr };
 
@@ -50,7 +53,7 @@ namespace winrt::AudioVisualizer::implementation
 		std::vector<int> _barStates;	// Keeps state of the bar elements lit
 		std::vector<int> _barAuxStates;	// Keeps state of the auxiliary bar elements lit
 
-		virtual void OnSourceChanged(hstring const &) {};
+		virtual void OnSourceChanged(hstring const&) {};
 		winrt::event_token _sourceChangedEvent;
 
 	public:
@@ -60,7 +63,7 @@ namespace winrt::AudioVisualizer::implementation
 			using namespace Windows::UI::Xaml;
 			using namespace Windows::UI::Xaml::Hosting;
 			using namespace Windows::Foundation::Numerics;
-			
+
 			_barCount = 1;
 			_channelIndex = 0;
 			_orientation = Windows::UI::Xaml::Controls::Orientation::Vertical;
@@ -79,7 +82,7 @@ namespace winrt::AudioVisualizer::implementation
 			_meterVisual = _compositor.CreateContainerVisual();
 			ElementCompositionPreview::SetElementChildVisual(*derived_this(), _meterVisual);
 
-			_backgroundBrush = util::make_composition_brush(derived_this()->Background(),_compositor);
+			_backgroundBrush = util::make_composition_brush(derived_this()->Background(), _compositor);
 			//_auxElementBrush = _compositor.CreateColorBrush(Colors::BlueViolet());
 			_meterBackgroundVisual = _compositor.CreateSpriteVisual();
 			_meterBackgroundVisual.Brush(_backgroundBrush);
@@ -140,33 +143,33 @@ namespace winrt::AudioVisualizer::implementation
 				}
 			}
 		}
-		void OnBackgroundChanged(Windows::UI::Xaml::DependencyObject const &, Windows::UI::Xaml::DependencyProperty const &)
+		void OnBackgroundChanged(Windows::UI::Xaml::DependencyObject const&, Windows::UI::Xaml::DependencyProperty const&)
 		{
-			_backgroundBrush = util::make_composition_brush(derived_this()->Background(),_compositor);
+			_backgroundBrush = util::make_composition_brush(derived_this()->Background(), _compositor);
 			_meterBackgroundVisual.Brush(_backgroundBrush);
 		}
 
 
-		void OnSizeChanged(Windows::Foundation::IInspectable const &, Windows::UI::Xaml::SizeChangedEventArgs const &args)
+		void OnSizeChanged(Windows::Foundation::IInspectable const&, Windows::UI::Xaml::SizeChangedEventArgs const& args)
 		{
 			std::lock_guard<std::mutex> lock(_lock);
 			LayoutVisuals(args.NewSize());
 		}
 
-		void OnLoaded(Windows::Foundation::IInspectable const &, Windows::UI::Xaml::RoutedEventArgs const &)
+		void OnLoaded(Windows::Foundation::IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&)
 		{
 			using namespace Windows::System::Threading;
 			_updateTimer = ThreadPoolTimer::CreatePeriodicTimer(TimerElapsedHandler(this, &BarVisualizerBase::OnUpdateTimerElapsed), Windows::Foundation::TimeSpan(166667));
 		}
 
-		void OnUnloaded(Windows::Foundation::IInspectable const &, Windows::UI::Xaml::RoutedEventArgs const &)
+		void OnUnloaded(Windows::Foundation::IInspectable const&, Windows::UI::Xaml::RoutedEventArgs const&)
 		{
 			if (_updateTimer) {
 				_updateTimer.Cancel();
 			}
 		}
 
-		void OnUpdateTimerElapsed(Windows::System::Threading::ThreadPoolTimer const &)
+		void OnUpdateTimerElapsed(Windows::System::Threading::ThreadPoolTimer const&)
 		{
 			VisualizationDataFrame frame{ nullptr };
 			if (_source) {
@@ -176,14 +179,14 @@ namespace winrt::AudioVisualizer::implementation
 			OnUpdateMeter(frame);
 		}
 
-		virtual void OnUpdateMeter(VisualizationDataFrame const &) {};
+		virtual void OnUpdateMeter(VisualizationDataFrame const&) {};
 
 		int GetBarElementIndex(float value) {
 			if (value > _levels.front().Level) {
 				auto firstLevelGTE = std::find_if(
-					std::begin(_levels), 
-					std::end(_levels), 
-					[=](const MeterBarLevel &level) { return level.Level >= value; }
+					std::begin(_levels),
+					std::end(_levels),
+					[=](const MeterBarLevel& level) { return level.Level >= value; }
 				);
 				if (firstLevelGTE != std::end(_levels)) {
 					if (firstLevelGTE == std::begin(_levels))
@@ -236,7 +239,7 @@ namespace winrt::AudioVisualizer::implementation
 						visual.Brush(_unlitElementBrush);
 						shadow.Color(_unlitElementColor == winrt::Windows::UI::Colors::Transparent() ? winrt::Windows::UI::Colors::Transparent() : _elementShadowColor);	// Unlit element shadows are transparent
 					}
-				}		
+				}
 			}
 			_barStates[barIndex] = mainValueIndex;
 			_barAuxStates[barIndex] = auxValueIndex;
@@ -259,14 +262,14 @@ namespace winrt::AudioVisualizer::implementation
 			float2 newSize = float2(size.Width, size.Height);
 
 			float2 cellSize = _orientation == Orientation::Vertical ? // Flip dimensions based on orientation
-								float2(newSize.x / _barCount, newSize.y / _levels.size()) : 
-								float2(newSize.x / _levels.size(), newSize.y / _barCount);
+				float2(newSize.x / _barCount, newSize.y / _levels.size()) :
+				float2(newSize.x / _levels.size(), newSize.y / _barCount);
 
 			float2 elementOffset = float2(float(_elementMargin.Left) * cellSize.x, float(_elementMargin.Top) * cellSize.y);
 			float2 relativeElementSize = float2((float)(1.0 - _elementMargin.Left - _elementMargin.Right), (float)(1.0 - _elementMargin.Top - _elementMargin.Bottom));
 			_elementSize = relativeElementSize * cellSize;
 			CreateElementBrushes();
-			
+
 			if (_elementFactory) {
 				_shadowMask = _elementFactory.CreateShadowMask(*derived_this(), _elementSize, _compositor, _compositionDevice);
 			}
@@ -274,13 +277,13 @@ namespace winrt::AudioVisualizer::implementation
 			{
 				_shadowMask = nullptr;
 			}
-			UpdateShadows([=](winrt::Windows::UI::Composition::DropShadow const & shadow) {shadow.Mask(_shadowMask); });
+			UpdateShadows([=](winrt::Windows::UI::Composition::DropShadow const& shadow) {shadow.Mask(_shadowMask); });
 
 			for (size_t barIndex = 0, elementIndex = 0; barIndex < _barCount; barIndex++)
 			{
 				float2 elementCell = elementOffset + (_orientation == Orientation::Vertical ?
-									float2(barIndex * cellSize.x, newSize.y - cellSize.y) : // If vertical layout, first cell is bottommost to the left
-									float2(0, cellSize.y * barIndex));	// else left top
+					float2(barIndex * cellSize.x, newSize.y - cellSize.y) : // If vertical layout, first cell is bottommost to the left
+					float2(0, cellSize.y * barIndex));	// else left top
 
 				for (size_t rowIndex = 0; rowIndex < elementRowCount; rowIndex++, elementIndex++)
 				{
@@ -292,7 +295,7 @@ namespace winrt::AudioVisualizer::implementation
 					}
 					else {
 						elementCell.x += cellSize.x;
-					}				
+					}
 				}
 			}
 		}
@@ -302,7 +305,7 @@ namespace winrt::AudioVisualizer::implementation
 			return _source;
 		}
 
-		
+
 		void Source(AudioVisualizer::IVisualizationSource const& value)
 		{
 			if (_source) {
@@ -313,10 +316,10 @@ namespace winrt::AudioVisualizer::implementation
 			if (_source) {
 				_sourceChangedEvent = _source.ConfigurationChanged(
 					Windows::Foundation::TypedEventHandler<AudioVisualizer::IVisualizationSource, hstring>(
-						[=] (const AudioVisualizer::IVisualizationSource &, const hstring &propertyName) {
+						[=](const AudioVisualizer::IVisualizationSource&, const hstring& propertyName) {
 							OnSourceChanged(propertyName);
 						}
-						));
+				));
 			}
 		}
 
@@ -327,7 +330,7 @@ namespace winrt::AudioVisualizer::implementation
 
 		struct windows_ui_color_is_less_than
 		{
-			bool operator()(Windows::UI::Color const &a, Windows::UI::Color const &b) const
+			bool operator()(Windows::UI::Color const& a, Windows::UI::Color const& b) const
 			{
 				return *((uint32_t*)&a) < *((uint32_t*)&b);
 			}
@@ -351,8 +354,8 @@ namespace winrt::AudioVisualizer::implementation
 
 			_levels.resize(value.size());
 			std::copy(value.begin(), value.end(), _levels.begin());
-			
-			CreateElementVisuals();		
+
+			CreateElementVisuals();
 			LayoutVisuals();
 		}
 
@@ -371,7 +374,7 @@ namespace winrt::AudioVisualizer::implementation
 		{
 			if (_elementFactory) {
 				auto size = winrt::Windows::Foundation::Size(_elementSize.x, _elementSize.y);
-				return _elementFactory.CreateElementBrush(*derived_this(),color,size,_compositor,_compositionDevice);
+				return _elementFactory.CreateElementBrush(*derived_this(), color, size, _compositor, _compositionDevice);
 			}
 			else {
 				return _compositor.CreateColorBrush(color);
@@ -449,7 +452,7 @@ namespace winrt::AudioVisualizer::implementation
 		{
 			return _elementFactory;
 		}
-		void ElementFactory(AudioVisualizer::IBarElementFactory const &value)
+		void ElementFactory(AudioVisualizer::IBarElementFactory const& value)
 		{
 			std::lock_guard<std::mutex> lock(_lock);
 			_elementFactory = value;
@@ -475,12 +478,12 @@ namespace winrt::AudioVisualizer::implementation
 
 		}
 
-		void ElementShadowOffset(winrt::Windows::Foundation::Numerics::float3 const & value)
+		void ElementShadowOffset(winrt::Windows::Foundation::Numerics::float3 const& value)
 		{
 			std::lock_guard<std::mutex> lock(_lock);
 			_elementShadowOffset = value;
 			UpdateShadows(
-				[=](winrt::Windows::UI::Composition::DropShadow const &shadow) { shadow.Offset(value); }
+				[=](winrt::Windows::UI::Composition::DropShadow const& shadow) { shadow.Offset(value); }
 			);
 		}
 
@@ -493,7 +496,7 @@ namespace winrt::AudioVisualizer::implementation
 			std::lock_guard<std::mutex> lock(_lock);
 			_elementShadowOpacity = value;
 			UpdateShadows(
-				[=](winrt::Windows::UI::Composition::DropShadow const &shadow) { shadow.Opacity(value); }
+				[=](winrt::Windows::UI::Composition::DropShadow const& shadow) { shadow.Opacity(value); }
 			);
 		}
 		winrt::Windows::UI::Color ElementShadowColor()
@@ -522,7 +525,7 @@ namespace winrt::AudioVisualizer::implementation
 				}
 			}
 			else {	// If unlit elements are not transparent update all shadows
-				UpdateShadows([=](winrt::Windows::UI::Composition::DropShadow const & shadow) { shadow.Color(value); });
+				UpdateShadows([=](winrt::Windows::UI::Composition::DropShadow const& shadow) { shadow.Color(value); });
 			}
 
 		}
@@ -535,7 +538,7 @@ namespace winrt::AudioVisualizer::implementation
 			std::lock_guard<std::mutex> lock(_lock);
 			_elementShadowBlurRadius = value;
 			UpdateShadows(
-				[=](winrt::Windows::UI::Composition::DropShadow const &shadow) { shadow.BlurRadius(value); }
+				[=](winrt::Windows::UI::Composition::DropShadow const& shadow) { shadow.BlurRadius(value); }
 			);
 		}
 	};

@@ -5,7 +5,7 @@
 namespace util
 {
 	template<typename EnumType>
-	inline bool enum_has_flag(const EnumType& value, const EnumType & flag)
+	inline bool enum_has_flag(const EnumType& value, const EnumType& flag)
 	{
 		return (value & flag) != static_cast<EnumType>(0);
 	}
@@ -41,5 +41,5 @@ namespace util
 		}
 	};
 
-	winrt::Windows::UI::Composition::CompositionBrush make_composition_brush(winrt::Windows::UI::Xaml::Media::Brush const &xamlBrush,winrt::Windows::UI::Composition::Compositor const & compositor);
+	winrt::Windows::UI::Composition::CompositionBrush make_composition_brush(winrt::Windows::UI::Xaml::Media::Brush const& xamlBrush, winrt::Windows::UI::Composition::Compositor const& compositor);
 }

@@ -7,18 +7,18 @@
 
 namespace winrt::AudioVisualizer::implementation
 {
-    struct SpectrumVisualizer : SpectrumVisualizerT<SpectrumVisualizer>,BarVisualizerBase<SpectrumVisualizer>
-    {
+	struct SpectrumVisualizer : SpectrumVisualizerT<SpectrumVisualizer>, BarVisualizerBase<SpectrumVisualizer>
+	{
 	public:
-        SpectrumVisualizer();
-		virtual void OnSourceChanged(hstring const &propertyName);
-		virtual void OnUpdateMeter(AudioVisualizer::VisualizationDataFrame const &frame);
-    };
+		SpectrumVisualizer();
+		virtual void OnSourceChanged(hstring const& propertyName);
+		virtual void OnUpdateMeter(AudioVisualizer::VisualizationDataFrame const& frame);
+	};
 }
 
 namespace winrt::AudioVisualizer::factory_implementation
 {
-    struct SpectrumVisualizer : SpectrumVisualizerT<SpectrumVisualizer, implementation::SpectrumVisualizer>
-    {
-    };
+	struct SpectrumVisualizer : SpectrumVisualizerT<SpectrumVisualizer, implementation::SpectrumVisualizer>
+	{
+	};
 }

@@ -3,14 +3,16 @@
 #include "CustomVisualizer.g.h"
 #include "CreateResourcesEventArgs.h"
 #include "VisualizerDrawEventArgs.h"
+
 #include <winrt/Microsoft.Graphics.Canvas.h>
 #include <winrt/Windows.Graphics.Display.h>
 
+#include <mutex>
 
 namespace winrt::AudioVisualizer::implementation
 {
-    struct CustomVisualizer : CustomVisualizerT<CustomVisualizer>
-    {
+	struct CustomVisualizer : CustomVisualizerT<CustomVisualizer>
+	{
 	private:
 		Windows::UI::Composition::ContainerVisual _rootVisual{ nullptr };
 		Windows::UI::Composition::SpriteVisual _swapChainVisual{ nullptr };
@@ -43,19 +45,19 @@ namespace winrt::AudioVisualizer::implementation
 		winrt::event<Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::VisualizerDrawEventArgs >> _drawEvent;
 		winrt::event<Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::CreateResourcesEventArgs>> _createResourcesEvent;
 	public:
-        CustomVisualizer();
+		CustomVisualizer();
 		AudioVisualizer::IVisualizationSource Source();
 		void Source(AudioVisualizer::IVisualizationSource const& value);
-        event_token Draw(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::VisualizerDrawEventArgs> const& handler);
-        void Draw(event_token const& token);
-        event_token CreateResources(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::CreateResourcesEventArgs> const& handler);
-        void CreateResources(event_token const& token);
-    };
+		event_token Draw(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::VisualizerDrawEventArgs> const& handler);
+		void Draw(event_token const& token);
+		event_token CreateResources(Windows::Foundation::TypedEventHandler<Windows::Foundation::IInspectable, AudioVisualizer::CreateResourcesEventArgs> const& handler);
+		void CreateResources(event_token const& token);
+	};
 }
 
 namespace winrt::AudioVisualizer::factory_implementation
 {
-    struct CustomVisualizer : CustomVisualizerT<CustomVisualizer, implementation::CustomVisualizer>
-    {
-    };
+	struct CustomVisualizer : CustomVisualizerT<CustomVisualizer, implementation::CustomVisualizer>
+	{
+	};
 }

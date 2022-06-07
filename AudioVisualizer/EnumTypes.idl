@@ -16,7 +16,7 @@ namespace AudioVisualizer
 		New = 0,
 		DeviceLost = 1,
 		DpiChanged = 2
-	};	
+	};
 
 	[flags]
 	enum AnalyzerType

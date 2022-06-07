@@ -9,13 +9,13 @@ namespace winrt::AudioVisualizer::implementation
 		this->properties = properties;
 	}
 
-    hstring VisualizerEffectDefinition::ActivatableClassId()
-    {
-       return name_of<AudioVisualizer::VisualizerAudioEffect>().data();
-    }
+	hstring VisualizerEffectDefinition::ActivatableClassId()
+	{
+		return name_of<AudioVisualizer::VisualizerAudioEffect>().data();
+	}
 
-    Windows::Foundation::Collections::IPropertySet VisualizerEffectDefinition::Properties()
-    {
+	Windows::Foundation::Collections::IPropertySet VisualizerEffectDefinition::Properties()
+	{
 		return properties;
-    }
+	}
 }
