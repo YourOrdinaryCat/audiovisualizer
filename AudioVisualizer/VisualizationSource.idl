@@ -1,10 +1,10 @@
-import "enumTypes.idl";
+import "AnalyzerType.idl";
+import "SourcePlaybackState.idl";
+
 import "VisualizationDataFrame.idl";
 
 namespace AudioVisualizer
 {
-	interface IVisualizationSource;
-
 	interface IVisualizationSource
 	{
 		VisualizationDataFrame GetData();
@@ -13,12 +13,15 @@ namespace AudioVisualizer
 		AnalyzerType AnalyzerTypes;
 		Windows.Foundation.IReference<Windows.Foundation.TimeSpan> PresentationTime{ get; };
 		SourcePlaybackState PlaybackState{ get; };
+
 		Windows.Foundation.IReference<UInt32> ActualFrequencyCount{ get; };
 		Windows.Foundation.IReference<UInt32> ActualChannelCount{ get; };
+
 		Windows.Foundation.IReference<Single> ActualMinFrequency{ get; };
 		Windows.Foundation.IReference<Single> ActualMaxFrequency{ get; };
+
 		Windows.Foundation.IReference<ScaleType> ActualFrequencyScale{ get; };
 
-		event Windows.Foundation.TypedEventHandler<IVisualizationSource,String> ConfigurationChanged;
+		event Windows.Foundation.TypedEventHandler<IVisualizationSource, String> ConfigurationChanged;
 	};
 }

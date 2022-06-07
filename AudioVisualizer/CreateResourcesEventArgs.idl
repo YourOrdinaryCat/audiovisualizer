@@ -1,4 +1,4 @@
-import "enumTypes.idl";
+import "CreateResourcesReason.idl";
 
 namespace AudioVisualizer
 {

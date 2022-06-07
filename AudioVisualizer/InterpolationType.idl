@@ -1,0 +1,8 @@
+namespace AudioVisualizer
+{
+	enum InterpolationType
+	{
+		Linear = 0,
+		CubicSpline = 1
+	};
+}

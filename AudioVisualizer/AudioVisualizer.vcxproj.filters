@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Generated Files">
-      <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Project Files">
       <UniqueIdentifier>{6ae23ccb-055a-4bcd-82e1-6ce51968f864}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{07cae346-9771-4af1-a655-0c96ebd04a40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Generated Files\module.g.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScalarData.cpp" />
     <ClCompile Include="AudioMath.cpp" />
     <ClCompile Include="SpectrumData.cpp" />
@@ -35,6 +32,9 @@
     <ClCompile Include="VectorData.cpp" />
     <ClCompile Include="AudioSourceReader.cpp" />
     <ClCompile Include="pch.cpp">
+      <Filter>Project Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated Files\module.g.cpp">
       <Filter>Project Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,7 +70,6 @@
   <ItemGroup>
     <Midl Include="ScalarData.idl" />
     <Midl Include="SpectrumData.idl" />
-    <Midl Include="EnumTypes.idl" />
     <Midl Include="CreateResourcesEventArgs.idl" />
     <Midl Include="VisualizationDataFrame.idl" />
     <Midl Include="VisualizerDrawEventArgs.idl" />
@@ -89,6 +88,21 @@
     <Midl Include="BarVisualizer.idl" />
     <Midl Include="VectorData.idl" />
     <Midl Include="AudioSourceReader.idl" />
+    <Midl Include="ScaleType.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="InterpolationType.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="CreateResourcesReason.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="AnalyzerType.idl">
+      <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="SourcePlaybackState.idl">
+      <Filter>Enums</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="AudioVisualizer.def">

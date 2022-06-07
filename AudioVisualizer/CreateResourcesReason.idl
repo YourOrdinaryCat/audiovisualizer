@@ -1,0 +1,9 @@
+namespace AudioVisualizer
+{
+	enum CreateResourcesReason
+	{
+		New = 0,
+		DeviceLost = 1,
+		DpiChanged = 2
+	};
+}

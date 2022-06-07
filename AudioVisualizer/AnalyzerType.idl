@@ -1,0 +1,12 @@
+namespace AudioVisualizer
+{
+	[flags]
+	enum AnalyzerType
+	{
+		None = 0,
+		RMS = 0x1,
+		Peak = 0x2,
+		Spectrum = 0x4,
+		All = 0x7
+	};
+}

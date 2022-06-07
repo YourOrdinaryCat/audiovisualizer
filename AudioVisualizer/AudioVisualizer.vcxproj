@@ -178,19 +178,23 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="AnalogVUMeter.idl" />
+    <Midl Include="AnalyzerType.idl" />
     <Midl Include="AudioAnalyzer.idl" />
     <Midl Include="BarVisualizer.idl" />
     <Midl Include="CreateResourcesEventArgs.idl" />
+    <Midl Include="CreateResourcesReason.idl" />
     <Midl Include="CustomVisualizer.idl" />
     <Midl Include="DiscreteVUBar.idl" />
+    <Midl Include="InterpolationType.idl" />
     <Midl Include="MediaAnalyzer.idl" />
     <Midl Include="AudioSourceReader.idl" />
     <Midl Include="PlaybackSource.idl" />
     <Midl Include="ScalarData.idl" />
+    <Midl Include="ScaleType.idl" />
     <Midl Include="SourceConverter.idl" />
+    <Midl Include="SourcePlaybackState.idl" />
     <Midl Include="SpectralAnalyzer.idl" />
     <Midl Include="SpectrumData.idl" />
-    <Midl Include="EnumTypes.idl" />
     <Midl Include="SpectrumVisualizer.idl" />
     <Midl Include="VectorData.idl" />
     <Midl Include="VisualizationDataFrame.idl" />

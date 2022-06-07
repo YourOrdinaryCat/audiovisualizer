@@ -1,4 +1,4 @@
-import "EnumTypes.idl";
+import "ScaleType.idl";
 
 namespace AudioVisualizer
 {
@@ -10,6 +10,7 @@ namespace AudioVisualizer
 		static ScalarData ApplyRiseAndFallToEmpty(ScalarData previous, Windows.Foundation.TimeSpan riseTime, Windows.Foundation.TimeSpan fallTime, Windows.Foundation.TimeSpan timeFromPrevious);
 
 		ScaleType AmplitudeScale{ get; };
+
 		ScalarData ConvertToDecibels(Single minValue, Single maxValue);
 		ScalarData ApplyRiseAndFall(ScalarData previous, Windows.Foundation.TimeSpan riseTime, Windows.Foundation.TimeSpan fallTime, Windows.Foundation.TimeSpan timeFromPrevious);
 		ScalarData CombineChannels(Single[] map);
