@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
-#include "VectorData.h"
+
 #include "ScalarValuesIterator.h"
+#include "VectorData.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

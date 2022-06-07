@@ -1,8 +1,7 @@
 ﻿#include "pch.h"
+
 #include "AudioSourceReader.h"
-#include <windows.media.mediaproperties.h>
-#include <windows.media.core.interop.h>
-#include <windows.media.h>
+
 
 static bool g_MFInitialized = false;
 

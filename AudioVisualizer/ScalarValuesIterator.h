@@ -1,4 +1,6 @@
 #pragma once
+
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct ScalarValuesIterator : implements<ScalarValuesIterator, Windows::Foundation::Collections::IIterator<float>>

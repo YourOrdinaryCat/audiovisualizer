@@ -1,7 +1,8 @@
 ﻿#include "pch.h"
+
 #include "VisualizerAudioEffect.h"
-#include <winrt/Windows.Media.Audio.h>
 #include "Tracing.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

@@ -2,6 +2,7 @@
 
 #include "VectorData.g.h"
 
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct VectorData : VectorDataT<VectorData>

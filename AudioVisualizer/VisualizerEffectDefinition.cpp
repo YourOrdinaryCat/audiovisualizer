@@ -1,6 +1,9 @@
 ﻿#include "pch.h"
+
 #include "VisualizerEffectDefinition.h"
+
 #include "VisualizerAudioEffect.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

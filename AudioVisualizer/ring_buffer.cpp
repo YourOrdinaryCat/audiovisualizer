@@ -1,5 +1,7 @@
 #include "pch.h"
+
 #include "ring_buffer.h"
+
 
 namespace AudioVisualizer
 {

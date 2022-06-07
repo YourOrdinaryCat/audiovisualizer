@@ -1,10 +1,9 @@
 ﻿#pragma once
 
 #include "AnalogVUMeter.g.h"
-#include <winrt/Windows.System.Threading.h>
+
 #include <vector>
 
-using namespace winrt::Windows::Foundation::Numerics;
 
 namespace winrt::AudioVisualizer::implementation
 {
@@ -26,14 +25,16 @@ namespace winrt::AudioVisualizer::implementation
 		std::vector<MeterScaleSection> _scaleSections;
 		std::vector<MeterScaleLabel> _scaleLabels;
 
-		float2 _scaleArcCenterPoint = float2::zero();
-		float2 _scaleArcStartPoint = float2::zero();
+		Windows::Foundation::Numerics::float2 _scaleArcCenterPoint = Windows::Foundation::Numerics::float2::zero();
+		Windows::Foundation::Numerics::float2 _scaleArcStartPoint = Windows::Foundation::Numerics::float2::zero();
+
 		float _scaleArcRadius = 0.0f;
 		float _scaleArcStartAngle = 0.0f;
 
 		// Meter configuration
-		float2 _dialRelativeFixPoint = float2(0.5f, 1.5f);
-		float2 _scaleStartingPoint = float2(0.1f, 0.6f);
+		Windows::Foundation::Numerics::float2 _dialRelativeFixPoint = Windows::Foundation::Numerics::float2(0.5f, 1.5f);
+		Windows::Foundation::Numerics::float2 _scaleStartingPoint = Windows::Foundation::Numerics::float2(0.1f, 0.6f);
+
 		float _scaleSweepAngle = 1.33f;
 		float _dialRelativeLength = 1.08f;
 		float _meterValue = 0.0f;
@@ -42,8 +43,8 @@ namespace winrt::AudioVisualizer::implementation
 		uint32_t _channelIndex = 0;
 
 		void UpdateDialPosition();
-		void PaintScale(const float2& size);
-		float2 PointOnArc(float relativeValue, float relativeLength = 1.0f);
+		void PaintScale(const Windows::Foundation::Numerics::float2& size);
+		Windows::Foundation::Numerics::float2 PointOnArc(float relativeValue, float relativeLength = 1.0f);
 
 		void OnSizeChanged(IInspectable sender, Windows::UI::Xaml::SizeChangedEventArgs const& args);
 		void UpdateLayout(winrt::Windows::Foundation::Numerics::float2& newSize);

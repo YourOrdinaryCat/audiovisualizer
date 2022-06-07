@@ -1,8 +1,11 @@
 ﻿#pragma once
 
 #include "VisualizerAudioEffect.g.h"
+
 #include "AudioAnalyzer.h"
+
 #include <mutex>
+
 
 namespace winrt::AudioVisualizer::implementation
 {

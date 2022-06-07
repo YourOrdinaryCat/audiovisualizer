@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "DiscreteVUBar.g.h"
+
 #include "BarVisualizerBase.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

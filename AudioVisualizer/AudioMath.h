@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace AudioMath
 {
 	extern float g_fDbScaler;

@@ -1,4 +1,6 @@
 #pragma once
+
+
 namespace AudioVisualizer
 {
 	struct ring_buffer

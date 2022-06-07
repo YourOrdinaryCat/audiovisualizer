@@ -1,17 +1,14 @@
 ﻿#include "pch.h"
 
 #include "CustomVisualizer.h"
+
 #include "Tracing.h"
 
 #include <StlLock.h>
 #include <mutex>
 
-#include <winrt/Windows.UI.Xaml.Hosting.h>
-#include <winrt/Windows.UI.Composition.h>
 #include <winrt/Microsoft.Graphics.Canvas.UI.Composition.h>
-#include <winrt/Windows.System.Threading.h>
-#include <winrt/Windows.UI.Core.h>
-#include <winrt/Windows.ApplicationModel.h>
+
 
 namespace winrt::AudioVisualizer::implementation
 {

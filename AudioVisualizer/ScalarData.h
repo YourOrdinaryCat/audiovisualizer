@@ -4,6 +4,7 @@
 
 #include "ScalarValuesIterator.h"
 
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct ScalarData : ScalarDataT<ScalarData>

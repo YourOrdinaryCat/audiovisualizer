@@ -1,15 +1,19 @@
 ﻿#include "pch.h"
+
 #include "SpectrumVisualizer.h"
-#include <winrt/Microsoft.Graphics.Canvas.Text.h>
 
 #include <mutex>
 #include <StlLock.h>
+
+#include <winrt/Microsoft.Graphics.Canvas.Text.h>
+
 
 using namespace winrt::Windows::UI::Xaml::Controls;
 using namespace winrt::Windows::UI::Xaml;
 using namespace winrt::Windows::UI;
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::Foundation::Collections;
+
 
 namespace winrt::AudioVisualizer::implementation
 {

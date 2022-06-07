@@ -2,6 +2,7 @@
 
 #include "VisualizerDrawEventArgs.g.h"
 
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct VisualizerDrawEventArgs : VisualizerDrawEventArgsT<VisualizerDrawEventArgs>

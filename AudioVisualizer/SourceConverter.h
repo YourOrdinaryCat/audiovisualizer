@@ -1,8 +1,9 @@
 ﻿#pragma once
 
+#include "SourceConverter.g.h"
+
 #include <shared_mutex>
 
-#include "SourceConverter.g.h"
 
 namespace winrt::AudioVisualizer::implementation
 {

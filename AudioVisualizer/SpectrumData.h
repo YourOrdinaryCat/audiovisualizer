@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "SpectrumData.g.h"
+
 #include "VectorData.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

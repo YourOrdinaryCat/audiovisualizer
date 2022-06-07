@@ -1,19 +1,16 @@
 ﻿#include "pch.h"
+
 #include "MediaAnalyzer.h"
 #include "ScalarData.h"
 #include "SpectrumData.h"
 #include "VisualizationDataFrame.h"
-#include <winrt/Windows.System.Threading.h>
-#include <mfapi.h>
-#include <mfidl.h>
-#include <Mferror.h>
+
 #include "Tracing.h"
-#include <windows.media.core.interop.h>
-#include <windows.media.audio.h>
 
 #pragma comment(lib, "mf.lib")
 #pragma comment(lib, "mfuuid.lib")
 #pragma comment(lib, "mfplat.lib")
+
 
 namespace winrt::AudioVisualizer::implementation
 {

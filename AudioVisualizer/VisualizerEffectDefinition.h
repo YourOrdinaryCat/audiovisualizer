@@ -2,6 +2,7 @@
 
 #include "VisualizerEffectDefinition.g.h"
 
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct VisualizerEffectDefinition : VisualizerEffectDefinitionT<VisualizerEffectDefinition>

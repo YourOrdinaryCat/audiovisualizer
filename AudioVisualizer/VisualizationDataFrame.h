@@ -2,6 +2,7 @@
 
 #include "VisualizationDataFrame.g.h"
 
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct VisualizationDataFrame : VisualizationDataFrameT<VisualizationDataFrame>

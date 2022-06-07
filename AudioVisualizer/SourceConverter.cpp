@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
+
 #include "SourceConverter.h"
+
 #include "ScalarData.h"
 #include "SpectrumData.h"
-#include "VisualizationDataFrame.h"
 #include "Tracing.h"
+#include "VisualizationDataFrame.h"
 
 
 using namespace util;

@@ -1,17 +1,12 @@
 #pragma once
 
-#include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <winrt/Microsoft.Graphics.Canvas.UI.Composition.h>
-#include <winrt/Windows.UI.Composition.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Foundation.Numerics.h>
-#include <winrt/Windows.System.Threading.h>
-#include <winrt/Windows.UI.Core.h>
 
 #include <mutex>
 #include <set>
 
 #include "util.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

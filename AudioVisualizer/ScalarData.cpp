@@ -1,8 +1,9 @@
 ﻿#include "pch.h"
+
 #include "ScalarData.h"
+
 #include <memory>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <AudioMath.h>
+
 #include "ScalarValuesIterator.h"
 
 

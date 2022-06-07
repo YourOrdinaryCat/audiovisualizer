@@ -1,7 +1,7 @@
 #include "pch.h"
+
 #include "util.h"
-#include <winrt/Windows.UI.Composition.h>
-#include <winrt/Windows.UI.Xaml.Media.h>
+
 
 util::performance_frequency util::stopwatch::_frequency;
 

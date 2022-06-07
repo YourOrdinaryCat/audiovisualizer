@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "PlaybackSource.g.h"
+
 #include "VisualizerEffectDefinition.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

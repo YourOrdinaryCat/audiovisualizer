@@ -1,14 +1,15 @@
 ﻿#pragma once
 
 #include "MediaAnalyzer.g.h"
+
 #include <memory>
-#include <queue>
 #include <mutex>
+#include <queue>
+
 #include "VisualizationDataFrame.h"
-#include <windows.media.core.interop.h>
 #include "AudioAnalyzer.h"
 #include "Tracing.h"
-#include <winrt/Windows.Foundation.Diagnostics.h>
+
 
 namespace winrt::AudioVisualizer::implementation
 {

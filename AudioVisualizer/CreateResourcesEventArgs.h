@@ -2,6 +2,7 @@
 
 #include "CreateResourcesEventArgs.g.h"
 
+
 namespace winrt::AudioVisualizer::implementation
 {
 	struct CreateResourcesEventArgs : CreateResourcesEventArgsT<CreateResourcesEventArgs>

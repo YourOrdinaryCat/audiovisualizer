@@ -1,14 +1,12 @@
 ﻿#include "pch.h"
+
 #include "AudioAnalyzer.h"
-#include <DirectXMath.h>
-#include "XDSP.h"
-#include <memorybuffer.h>
-#include <winrt/windows.system.threading.h>
+
 #include "ScalarData.h"
 #include "SpectrumData.h"
 #include "VisualizationDataFrame.h"
-#include "util.h"
 #include "tracing.h"
+
 
 using namespace DirectX;
 using namespace XDSP;

@@ -1,5 +1,7 @@
 ﻿#include "pch.h"
+
 #include "CreateResourcesEventArgs.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

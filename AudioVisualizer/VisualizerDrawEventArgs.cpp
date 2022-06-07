@@ -1,5 +1,7 @@
 ﻿#include "pch.h"
+
 #include "VisualizerDrawEventArgs.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

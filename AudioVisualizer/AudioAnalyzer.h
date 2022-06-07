@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include "AudioAnalyzer.g.h"
-#include <DirectXMath.h>
+
 #include <mutex>
+
 #include "ring_buffer.h"
 
 

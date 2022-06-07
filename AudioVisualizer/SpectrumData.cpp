@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
-#include "SpectrumData.h"
-#include "ScalarData.h"
+
 #include "AudioMath.h"
+#include "ScalarData.h"
+#include "SpectrumData.h"
 #include "VectorData.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {

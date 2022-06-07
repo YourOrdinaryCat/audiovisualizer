@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "SpectrumVisualizer.g.h"
-#include <winrt/Windows.UI.h>
-#include <winrt/Windows.UI.Xaml.h>
+
 #include "BarVisualizerBase.h"
+
 
 namespace winrt::AudioVisualizer::implementation
 {
