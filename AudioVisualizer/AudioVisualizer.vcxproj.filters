@@ -7,14 +7,15 @@
     <Filter Include="Enums">
       <UniqueIdentifier>{07cae346-9771-4af1-a655-0c96ebd04a40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event Args">
+      <UniqueIdentifier>{86c70f86-27ce-4963-8855-7edf2015d8bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ScalarData.cpp" />
     <ClCompile Include="AudioMath.cpp" />
     <ClCompile Include="SpectrumData.cpp" />
-    <ClCompile Include="CreateResourcesEventArgs.cpp" />
     <ClCompile Include="VisualizationDataFrame.cpp" />
-    <ClCompile Include="VisualizerDrawEventArgs.cpp" />
     <ClCompile Include="MediaAnalyzer.cpp" />
     <ClCompile Include="PlaybackSource.cpp" />
     <ClCompile Include="SourceConverter.cpp" />
@@ -37,15 +38,19 @@
     <ClCompile Include="Generated Files\module.g.cpp">
       <Filter>Project Files</Filter>
     </ClCompile>
+    <ClCompile Include="CreateResourcesEventArgs.cpp">
+      <Filter>Event Args</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualizerDrawEventArgs.cpp">
+      <Filter>Event Args</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScalarData.h" />
     <ClInclude Include="AudioMath.h" />
     <ClInclude Include="XDSP.h" />
     <ClInclude Include="SpectrumData.h" />
-    <ClInclude Include="CreateResourcesEventArgs.h" />
     <ClInclude Include="VisualizationDataFrame.h" />
-    <ClInclude Include="VisualizerDrawEventArgs.h" />
     <ClInclude Include="MediaAnalyzer.h" />
     <ClInclude Include="PlaybackSource.h" />
     <ClInclude Include="SourceConverter.h" />
@@ -66,13 +71,17 @@
     <ClInclude Include="pch.h">
       <Filter>Project Files</Filter>
     </ClInclude>
+    <ClInclude Include="CreateResourcesEventArgs.h">
+      <Filter>Event Args</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualizerDrawEventArgs.h">
+      <Filter>Event Args</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ScalarData.idl" />
     <Midl Include="SpectrumData.idl" />
-    <Midl Include="CreateResourcesEventArgs.idl" />
     <Midl Include="VisualizationDataFrame.idl" />
-    <Midl Include="VisualizerDrawEventArgs.idl" />
     <Midl Include="MediaAnalyzer.idl" />
     <Midl Include="VisualizationSource.idl" />
     <Midl Include="PlaybackSource.idl" />
@@ -102,6 +111,12 @@
     </Midl>
     <Midl Include="SourcePlaybackState.idl">
       <Filter>Enums</Filter>
+    </Midl>
+    <Midl Include="CreateResourcesEventArgs.idl">
+      <Filter>Event Args</Filter>
+    </Midl>
+    <Midl Include="VisualizerDrawEventArgs.idl">
+      <Filter>Event Args</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
