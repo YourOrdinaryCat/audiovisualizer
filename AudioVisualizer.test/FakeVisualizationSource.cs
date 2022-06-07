@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using AudioVisualizer;
 
 namespace AudioVisualizer.test
 {
     internal class FakeVisualizationSource : IVisualizationSource
     {
         private uint? expectedChannels = 2;
-        public uint? ExpectedChannels {
+        public uint? ExpectedChannels
+        {
             get => expectedChannels;
-            set {
+            set
+            {
                 if (value != expectedChannels)
                 {
                     expectedChannels = value;

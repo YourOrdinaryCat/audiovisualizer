@@ -1,10 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Media;
 using Windows.Media.MediaProperties;
@@ -137,10 +133,10 @@ namespace AudioVisualizer.test
         [DataTestMethod]
         [DataRow(new double[] { 0.0 })]
         [DataRow(new double[] { 5.0 })]
-        [DataRow(new double[] { 5.0,1.0 })]
+        [DataRow(new double[] { 5.0, 1.0 })]
         [DataRow(new double[] { 2.0, 2.1 })]
         [TestCategory("MediaSourceReader")]
-        public void MediaSourceReader_Seek(double [] seekSequence)
+        public void MediaSourceReader_Seek(double[] seekSequence)
         {
             sut.Format = AudioEncodingProperties.CreatePcm(48000, 2, 16);
 
@@ -166,7 +162,7 @@ namespace AudioVisualizer.test
 #else
             Assert.ThrowsException<Exception>(
 #endif
-            ()=>
+            () =>
                 {
                     sut.Seek(TimeSpan.FromHours(1));
                 }

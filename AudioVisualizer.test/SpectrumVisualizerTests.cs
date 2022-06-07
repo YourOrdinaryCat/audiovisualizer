@@ -1,12 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -115,7 +112,8 @@ namespace AudioVisualizer.test
         [TestCategory("SpectrumVisualizer")]
         public void SpectrumVisualizer_SettingLevelsToNullThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.Levels = null;
             });
         }
@@ -123,7 +121,8 @@ namespace AudioVisualizer.test
         [TestCategory("SpectrumVisualizer")]
         public void SpectrumVisualizer_SettingLevelsToEmptyThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.Levels = new MeterBarLevel[] { };
             });
         }
@@ -131,7 +130,8 @@ namespace AudioVisualizer.test
         [TestCategory("SpectrumVisualizer")]
         public void SpectrumVisualizer_SettingLevelsToNonAscendingOrderThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.Levels = new MeterBarLevel[] {
                     new MeterBarLevel() { Level = -100 },
                     new MeterBarLevel() { Level = -100 },

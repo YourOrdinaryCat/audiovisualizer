@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioVisualizer.test
 {
@@ -21,7 +19,7 @@ namespace AudioVisualizer.test
         [TestCategory("ScalarData")]
         public void ScalarData_IVectorView_Size()
         {
-            Assert.AreEqual(2,sut.Count());
+            Assert.AreEqual(2, sut.Count());
         }
         [TestMethod]
         [TestCategory("ScalarData")]
@@ -257,7 +255,7 @@ namespace AudioVisualizer.test
         public void ScalarData_CombineChannelsWithNullMapThrows()
         {
             Assert.ThrowsException<NullReferenceException>(
-                ()=>
+                () =>
                 {
                     ScalarData.CreateEmpty(2).CombineChannels(null);
                 }
@@ -287,7 +285,7 @@ namespace AudioVisualizer.test
 #endif
                 () =>
                 {
-                    ScalarData.CreateEmpty(2).ConvertToDecibels(-100,0).CombineChannels(new float[] { 0.5f,0.5f });
+                    ScalarData.CreateEmpty(2).ConvertToDecibels(-100, 0).CombineChannels(new float[] { 0.5f, 0.5f });
                 }
                 );
         }

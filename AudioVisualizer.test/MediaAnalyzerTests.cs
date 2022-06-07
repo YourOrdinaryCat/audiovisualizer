@@ -1,11 +1,8 @@
 ﻿using AudioVisualizer.test.MediaFoundation.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Media.MediaProperties;
 
@@ -211,7 +208,7 @@ namespace AudioVisualizer.test
         [TestCategory("MediaAnalyzer")]
         [DataTestMethod()]
         [DataRow(22050, 1)]
-        [DataRow(32000,1)]
+        [DataRow(32000, 1)]
         [DataRow(44100, 1)]
         [DataRow(48000, 1)]
         [DataRow(96000, 1)]
@@ -223,9 +220,9 @@ namespace AudioVisualizer.test
         [DataRow(96000, 2)]
         [DataRow(192000, 2)]
         [DataRow(48000, 5)]
-        public void MediaAnalyzer_Mft_SetInputType(int sampleRate,int channels)
+        public void MediaAnalyzer_Mft_SetInputType(int sampleRate, int channels)
         {
-            _mft.SetInputMediaType(0, CreateFloatEncodingProperty((uint) sampleRate, (uint) channels), true);
+            _mft.SetInputMediaType(0, CreateFloatEncodingProperty((uint)sampleRate, (uint)channels), true);
         }
         [TestCategory("MediaAnalyzer")]
         [DataTestMethod()]
@@ -262,9 +259,9 @@ namespace AudioVisualizer.test
         [DataRow(96000, 2)]
         [DataRow(192000, 2)]
         [DataRow(48000, 5)]
-        public void MediaAnalyzer_Mft_Process(int sampleRate,int channels)
+        public void MediaAnalyzer_Mft_Process(int sampleRate, int channels)
         {
-           MediaFoundation.MediaPipelineFake pipeline = new MediaFoundation.MediaPipelineFake(_mft,(uint)sampleRate,(uint)channels);
+            MediaFoundation.MediaPipelineFake pipeline = new MediaFoundation.MediaPipelineFake(_mft, (uint)sampleRate, (uint)channels);
         }
 
         public void MediaAnalyzer_Mft_IsInputSamplePassedToOutput()
@@ -398,7 +395,7 @@ namespace AudioVisualizer.test
         [TestMethod]
         public void MediaAnalyzer_VisualizationSource_DefaultPlaybackStateIsStopped()
         {
-            Assert.AreEqual(SourcePlaybackState.Stopped,_analyzer.PlaybackState);
+            Assert.AreEqual(SourcePlaybackState.Stopped, _analyzer.PlaybackState);
         }
         [TestCategory("MediaAnalyzer")]
         [TestMethod]
@@ -434,14 +431,15 @@ namespace AudioVisualizer.test
         {
             PropertySet properties = new PropertySet();
             _analyzer.SetProperties(properties);
-            Assert.AreEqual(_analyzer,properties["Source"]);
+            Assert.AreEqual(_analyzer, properties["Source"]);
         }
 
         [TestMethod]
         [TestCategory("MediaAnalyzer")]
         public void MediaAnalyzer_SetNotPo2FftLengthThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)_analyzer;
                 analyzer.ConfigureSpectrum(2047, 0.0f);
             });
@@ -451,7 +449,8 @@ namespace AudioVisualizer.test
         [TestCategory("MediaAnalyzer")]
         public void MediaAnalyzer_SetFftLengthLT256Throws()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)_analyzer;
                 analyzer.ConfigureSpectrum(128, 0.0f);
             });
@@ -462,7 +461,8 @@ namespace AudioVisualizer.test
         [TestCategory("MediaAnalyzer")]
         public void MediaAnalyzer_SetOverlapToNegativeThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)_analyzer;
                 analyzer.ConfigureSpectrum(2048, -1.0f);
             });
@@ -471,7 +471,8 @@ namespace AudioVisualizer.test
         [TestCategory("MediaAnalyzer")]
         public void MediaAnalyzer_SetOverlapOverOneThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)_analyzer;
                 analyzer.ConfigureSpectrum(2048, 1.1f);
             });

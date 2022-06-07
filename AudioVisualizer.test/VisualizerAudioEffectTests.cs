@@ -1,15 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Media;
-using Windows.Media.Audio;
 using Windows.Media.Effects;
 using Windows.Media.MediaProperties;
 
@@ -28,7 +21,7 @@ namespace AudioVisualizer.test
             _audioNode.EffectAdded += new TypedEventHandler<FakeAudioNode, IAudioEffectDefinition>(
                 (node, effectDefinition) =>
                 {
-                    sut = (VisualizerAudioEffect) node.CreateAudioEffect(effectDefinition);
+                    sut = (VisualizerAudioEffect)node.CreateAudioEffect(effectDefinition);
                 }
                 );
             PlaybackSource.CreateFromAudioNode(_audioNode);
@@ -68,7 +61,7 @@ namespace AudioVisualizer.test
         {
             PropertySet properties = new PropertySet();
             sut.SetProperties(properties);
-            Assert.AreEqual(typeof(VisualizerAudioEffect).FullName, (string) properties["Type"]);
+            Assert.AreEqual(typeof(VisualizerAudioEffect).FullName, (string)properties["Type"]);
         }
 
         [TestMethod]
@@ -84,7 +77,8 @@ namespace AudioVisualizer.test
         [TestCategory("VisualizerAudioEffect")]
         public void VisualizerAudioEffect_SetNonFloatEncodingPropertiesThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.SetEncodingProperties(AudioEncodingProperties.CreatePcm(44100, 2, 16));
             });
         }
@@ -93,7 +87,8 @@ namespace AudioVisualizer.test
         [TestCategory("VisualizerAudioEffect")]
         public void VisualizerAudioEffect_SetNullEncodingPropertiesThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.SetEncodingProperties(null);
             });
         }
@@ -107,12 +102,12 @@ namespace AudioVisualizer.test
         [DataRow(48000u, 1u)]
         [DataRow(96000u, 1u)]
         [DataRow(192000u, 1u)]
-        [DataRow(8000u,2u)]
-        [DataRow(11025u,2u)]
-        [DataRow(16000u,2u)]
-        [DataRow(22050u,2u)]
-        [DataRow(44100u,2u)]
-        [DataRow(48000u,2u)]
+        [DataRow(8000u, 2u)]
+        [DataRow(11025u, 2u)]
+        [DataRow(16000u, 2u)]
+        [DataRow(22050u, 2u)]
+        [DataRow(44100u, 2u)]
+        [DataRow(48000u, 2u)]
         [DataRow(96000u, 2u)]
         [DataRow(192000u, 2u)]
         [DataRow(44100u, 5u)]
@@ -121,7 +116,7 @@ namespace AudioVisualizer.test
         [DataRow(192000u, 5u)]
         [TestMethod]
         [TestCategory("VisualizerAudioEffect")]
-        public void VisualizerAudioEffect_GetSupportedEncodingProperties(UInt32 sampleRate,UInt32 channelCount)
+        public void VisualizerAudioEffect_GetSupportedEncodingProperties(UInt32 sampleRate, UInt32 channelCount)
         {
             var encodings = sut.SupportedEncodingProperties;
             var match = encodings.Where((prop) => prop.Type == "Audio" && prop.Subtype == "Float" && prop.SampleRate == sampleRate && prop.ChannelCount == channelCount && prop.BitsPerSample == 32);
@@ -132,7 +127,8 @@ namespace AudioVisualizer.test
         [TestCategory("VisualizerAudioEffect")]
         public void VisualizerAudioEffect_SetNotPo2FftLengthThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)sut;
                 analyzer.ConfigureSpectrum(2047, 0.0f);
             });
@@ -142,7 +138,8 @@ namespace AudioVisualizer.test
         [TestCategory("VisualizerAudioEffect")]
         public void VisualizerAudioEffect_SetFftLengthLT256Throws()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)sut;
                 analyzer.ConfigureSpectrum(128, 0.0f);
             });
@@ -153,7 +150,8 @@ namespace AudioVisualizer.test
         [TestCategory("VisualizerAudioEffect")]
         public void VisualizerAudioEffect_SetOverlapToNegativeThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)sut;
                 analyzer.ConfigureSpectrum(2048, -1.0f);
             });
@@ -162,7 +160,8 @@ namespace AudioVisualizer.test
         [TestCategory("VisualizerAudioEffect")]
         public void VisualizerAudioEffect_SetOverlapOverOneThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 ISpectralAnalyzer analyzer = (ISpectralAnalyzer)sut;
                 analyzer.ConfigureSpectrum(2048, 1.1f);
             });
@@ -183,7 +182,7 @@ namespace AudioVisualizer.test
             encoding.Subtype = "Float";
             sut.SetEncodingProperties(encoding);
             IVisualizationSource source = (IVisualizationSource)sut;
-            Assert.AreEqual(encoding.ChannelCount,source.ActualChannelCount);
+            Assert.AreEqual(encoding.ChannelCount, source.ActualChannelCount);
         }
         [TestMethod]
         [TestCategory("VisualizerAudioEffect")]
@@ -233,7 +232,7 @@ namespace AudioVisualizer.test
         public void VisualizerAudioEffect_ActualMinFrequencyIsZero()
         {
             IVisualizationSource source = (IVisualizationSource)sut;
-            Assert.AreEqual(0.0f,source.ActualMinFrequency);
+            Assert.AreEqual(0.0f, source.ActualMinFrequency);
         }
 
         [TestMethod]
@@ -269,7 +268,8 @@ namespace AudioVisualizer.test
         public void VisualizerAudioEffect_SettingFpsThrows()
         {
             IVisualizationSource source = (IVisualizationSource)sut;
-            Assert.ThrowsException<NotImplementedException>(() => {
+            Assert.ThrowsException<NotImplementedException>(() =>
+            {
                 source.Fps = 0.1f;
             });
         }
@@ -303,7 +303,8 @@ namespace AudioVisualizer.test
         public void VisualizerAudioEffect_GettingPlaybackStateThrows()
         {
             IVisualizationSource source = (IVisualizationSource)sut;
-            Assert.ThrowsException<NotImplementedException>(() => {
+            Assert.ThrowsException<NotImplementedException>(() =>
+            {
                 var state = source.PlaybackState;
             });
         }

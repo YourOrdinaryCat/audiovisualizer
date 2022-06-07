@@ -1,21 +1,14 @@
 ﻿
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Media.Audio;
+using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
-using Windows.Media.Core;
-using Windows.UI.Xaml.Controls;
-using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using System.Threading;
-using Windows.Foundation;
-using AudioVisualizer;
-using System.Collections.Generic;
-using Windows.Media.Audio;
-using Windows.Media.Effects;
-using Windows.Media.MediaProperties;
-using System.Collections.ObjectModel;
-using Windows.Media;
 
 namespace AudioVisualizer.test
 {
@@ -36,7 +29,7 @@ namespace AudioVisualizer.test
             ManualResetEventSlim ev = new ManualResetEventSlim();
 
             playerSource.SourceChanged += new TypedEventHandler<object, IVisualizationSource>(
-                (sender,source)=>
+                (sender, source) =>
                 {
                     sources.Add(source);
                     ev.Set();
@@ -68,11 +61,12 @@ namespace AudioVisualizer.test
                 var source = PlaybackSource.CreateFromAudioNode(node);
                 graphResult.Graph.Start();
                 Assert.IsNotNull(source.Source);
-            } else
+            }
+            else
             {
                 Assert.Inconclusive($"Not able conduct test, could not activate audio graph, result = {graphResult.Status}, {graphResult.ExtendedError.Message}");
             }
         }
-   }
- 
+    }
+
 }

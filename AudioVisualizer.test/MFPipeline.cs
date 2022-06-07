@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Media.MediaProperties;
+﻿using Windows.Media.MediaProperties;
 
 namespace AudioVisualizer.test
 {
@@ -19,7 +14,7 @@ namespace AudioVisualizer.test
 
 
 
-            public MediaPipelineFake(MftWrapper mftObject,uint sampleRate,uint nChannels)
+            public MediaPipelineFake(MftWrapper mftObject, uint sampleRate, uint nChannels)
             {
                 _mft = mftObject;
                 SampleRate = sampleRate;

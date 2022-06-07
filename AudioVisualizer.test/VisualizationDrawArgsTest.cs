@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace AudioVisualizer.test
@@ -21,7 +17,7 @@ namespace AudioVisualizer.test
         [TestInitialize]
         public void TestInit()
         {
-            sut = new AudioVisualizer.VisualizerDrawEventArgs(expectedDataFrame, expectedDrawSession,expectedViewExtent, expectedPresentationTime);
+            sut = new AudioVisualizer.VisualizerDrawEventArgs(expectedDataFrame, expectedDrawSession, expectedViewExtent, expectedPresentationTime);
         }
 
         [TestMethod]

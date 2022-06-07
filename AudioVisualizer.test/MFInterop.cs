@@ -1,13 +1,8 @@
 ﻿using AudioVisualizer.test.MediaFoundation.Interop;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Windows.Media;
 using Windows.Media.MediaProperties;
 
 namespace AudioVisualizer.test
@@ -285,7 +280,7 @@ namespace AudioVisualizer.test
                 void GetPresentationClock([MarshalAs(UnmanagedType.IUnknown)] out object clock);
             }
         }
-        
+
         [ClassInterface(ClassInterfaceType.None)]
         internal class FakePresentationClock : IMFPresentationClock, IMFClock
         {
@@ -395,12 +390,12 @@ namespace AudioVisualizer.test
 
             public MftWrapper(Object transform)
             {
-                _mft = (IMFTransform) transform;
+                _mft = (IMFTransform)transform;
             }
 
-            public (uint inputStreamCount,uint outStreamCount) GetStreamCount()
+            public (uint inputStreamCount, uint outStreamCount) GetStreamCount()
             {
-                (uint, uint) result = (0,0);
+                (uint, uint) result = (0, 0);
                 _mft.GetStreamCount(out result.Item1, out result.Item2);
                 return result;
             }
@@ -411,7 +406,7 @@ namespace AudioVisualizer.test
                 _mft.GetStreamIDs(cInput, out inStreams, cOutput, out outStreams);
             }
 
-            public (uint minInput,uint maxInput,uint minOutput,uint maxOutput) GetStreamLimits()
+            public (uint minInput, uint maxInput, uint minOutput, uint maxOutput) GetStreamLimits()
             {
                 (uint, uint, uint, uint) result;
                 _mft.GetStreamLimits(out result.Item1, out result.Item2, out result.Item3, out result.Item4);
@@ -431,17 +426,17 @@ namespace AudioVisualizer.test
                 return streamInfo;
             }
             // No parameters as this is expected to throw
-            public uint [] AddInputStreams(uint streamCount)
+            public uint[] AddInputStreams(uint streamCount)
             {
                 uint streamIds = 0;
                 _mft.AddInputStreams(streamCount, out streamIds);
                 return null;
             }
 
-            public IMediaEncodingProperties GetAvailableInputTypes(uint streamID,uint typeIndex)
+            public IMediaEncodingProperties GetAvailableInputTypes(uint streamID, uint typeIndex)
             {
                 IMFMediaType mediaType = null;
-                _mft.GetInputAvailableType(streamID, typeIndex,out mediaType);
+                _mft.GetInputAvailableType(streamID, typeIndex, out mediaType);
                 return PropertiesFromMediaType(mediaType);
             }
 
@@ -469,7 +464,7 @@ namespace AudioVisualizer.test
                 return null;
             }
 
-            internal void SetInputMediaType(uint streamIndex, AudioEncodingProperties encoding,bool bTestOnly)
+            internal void SetInputMediaType(uint streamIndex, AudioEncodingProperties encoding, bool bTestOnly)
             {
                 IMFMediaType mediaType = MediaTypeFromProperties(encoding);
                 _mft.SetInputType(streamIndex, mediaType, bTestOnly ? 1u : 0u);

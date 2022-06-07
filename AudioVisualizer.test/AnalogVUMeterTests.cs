@@ -1,15 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace AudioVisualizer.test
 {
@@ -57,7 +51,7 @@ namespace AudioVisualizer.test
         [TestCategory("AnalogVUMeter")]
         public void AnalogVUMeter_SettingChannelIndexToNegativeThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => 
+            Assert.ThrowsException<ArgumentException>(() =>
             {
                 sut.ChannelIndex = -1;
             });
@@ -115,7 +109,7 @@ namespace AudioVisualizer.test
         [TestCategory("AnalogVUMeter")]
         public void AnalogVUMeter_IsDefaultDialFixPointSet()
         {
-            Assert.AreEqual(new System.Numerics.Vector2(0.5f,1.5f), sut.DialRelativeFixPoint);
+            Assert.AreEqual(new System.Numerics.Vector2(0.5f, 1.5f), sut.DialRelativeFixPoint);
         }
         [UITestMethod]
         [TestCategory("AnalogVUMeter")]
@@ -191,14 +185,14 @@ namespace AudioVisualizer.test
         public void AnalogVUMeter_CanSetDialShadowColor()
         {
             sut.DialShadowColor = Colors.Red;
-            Assert.AreEqual(Colors.Red , sut.DialShadowColor);
+            Assert.AreEqual(Colors.Red, sut.DialShadowColor);
         }
 
         [UITestMethod]
         [TestCategory("AnalogVUMeter")]
         public void AnalogVUMeter_IsDefaulDialShadowOffset()
         {
-            Assert.AreEqual(new Vector3(-3,3,-10),sut.DialShadowOffset);
+            Assert.AreEqual(new Vector3(-3, 3, -10), sut.DialShadowOffset);
         }
         [UITestMethod]
         [TestCategory("AnalogVUMeter")]

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Media;
 
@@ -26,7 +25,7 @@ namespace AudioVisualizer.test
     public static class AudioBufferExtension
     {
         public delegate float GeneratorFunction(Int64 frameOffset, uint channelIndex);
-        public static unsafe void Generate(this AudioFrame frame,uint channels,Int64 frameOffset,GeneratorFunction generator)
+        public static unsafe void Generate(this AudioFrame frame, uint channels, Int64 frameOffset, GeneratorFunction generator)
         {
             using (var buffer = frame.LockBuffer(AudioBufferAccessMode.ReadWrite))
             {
@@ -40,7 +39,7 @@ namespace AudioVisualizer.test
                     int sampleIndex = 0;
                     for (Int64 frameIndex = frameOffset; frameIndex < frameOffset + bufferLength; frameIndex++)
                     {
-                        for (uint channelIndex = 0; channelIndex < channels; channelIndex++,sampleIndex++)
+                        for (uint channelIndex = 0; channelIndex < channels; channelIndex++, sampleIndex++)
                         {
                             pSamples[sampleIndex] = generator(frameIndex, channelIndex);
                         }
@@ -64,7 +63,7 @@ namespace AudioVisualizer.test
             inputFrame = new AudioFrame(4 * inputFrameSize * 2); // 800 floats, 2 channels
             // Generate sine wave of amp 1 and period of 200 (f=0.25) samples into channel 0 and triangle with period 800 and amp 0.1 inopt channel 1
             inputFrame.Generate(2, 0,
-                (Int64 frameIndex, uint channelIndex) => 
+                (Int64 frameIndex, uint channelIndex) =>
                 {
                     return channelIndex == 0 ? (float)Math.Sin(2.0 * Math.PI * frameIndex / 200.0) : (float)(frameIndex % inputFrameSize) / 7990.0f;
                 }
@@ -148,7 +147,7 @@ namespace AudioVisualizer.test
         {
             var sut = new AudioAnalyzer(1200, 2, 48000, 800, 400, 2048, false);
             sut.Output += new Windows.Foundation.TypedEventHandler<AudioAnalyzer, VisualizationDataFrame>(
-                (analyzer,frame)=> { }
+                (analyzer, frame) => { }
                 );
         }
         [TestMethod]
@@ -172,7 +171,7 @@ namespace AudioVisualizer.test
         [TestCategory("AudioAnalyzer")]
         public void AudioAnalyzer_Configure_With_ZeroChannelsThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => 
+            Assert.ThrowsException<ArgumentException>(() =>
             {
                 var sut = new AudioAnalyzer(1200, 0, 48000, 800, 400, 2048, false);
             });
@@ -239,7 +238,7 @@ namespace AudioVisualizer.test
             var sut = new AudioAnalyzer(1200, 2, 48000, 800, 400, 2048, false);
             RegisterOutputHandler(sut);
             sut.ProcessInput(inputFrame);
-            Assert.AreEqual(1,outputFrames.Count);
+            Assert.AreEqual(1, outputFrames.Count);
         }
 
         [TestMethod]
@@ -305,7 +304,7 @@ namespace AudioVisualizer.test
             var sut = new AudioAnalyzer(1600, 2, 48000, 800, 400, 2048, false);
             RegisterOutputHandler(sut);
             sut.ProcessInput(inputFrame);
-            Assert.AreEqual(TimeSpan.FromSeconds(1),outputFrames.First().Time);
+            Assert.AreEqual(TimeSpan.FromSeconds(1), outputFrames.First().Time);
         }
         [TestMethod]
         [TestCategory("AudioAnalyzer")]
@@ -315,7 +314,7 @@ namespace AudioVisualizer.test
             RegisterOutputHandler(sut);
             sut.ProcessInput(inputFrame);
             sut.ProcessInput(inputFrame);
-            Assert.AreEqual(TimeSpan.FromTicks(10166666),outputFrames[1].Time);
+            Assert.AreEqual(TimeSpan.FromTicks(10166666), outputFrames[1].Time);
         }
         [TestMethod]
         [TestCategory("AudioAnalyzer")]
@@ -329,7 +328,7 @@ namespace AudioVisualizer.test
             for (int i = 0; i < 6; i++)
             {
                 sut.ProcessInput(frame);
-                Assert.AreEqual(expectedOutFrames[i], outputFrames.Count(),$"Pass {i}");
+                Assert.AreEqual(expectedOutFrames[i], outputFrames.Count(), $"Pass {i}");
             }
         }
         [TestMethod]
@@ -392,7 +391,7 @@ namespace AudioVisualizer.test
             RegisterOutputHandler(sut);
             sut.AnalyzerTypes = AnalyzerType.RMS;
             sut.ProcessInput(inputFrame);
-            Assert.AreEqual((float)1.0f/Math.Sqrt(2), outputFrames.First().RMS[0],1e-7);
+            Assert.AreEqual((float)1.0f / Math.Sqrt(2), outputFrames.First().RMS[0], 1e-7);
         }
         [TestMethod]
         [TestCategory("AudioAnalyzer")]
@@ -402,7 +401,7 @@ namespace AudioVisualizer.test
             RegisterOutputHandler(sut);
             sut.AnalyzerTypes = AnalyzerType.RMS;
             sut.ProcessInput(inputFrame);
-            Assert.AreEqual((float)0.1f/Math.Sqrt(3), outputFrames.First().RMS[1],2e-5);
+            Assert.AreEqual((float)0.1f / Math.Sqrt(3), outputFrames.First().RMS[1], 2e-5);
         }
         [TestMethod]
         [TestCategory("AudioAnalyzer")]
@@ -568,10 +567,10 @@ namespace AudioVisualizer.test
             var sut = new AudioAnalyzer(3200, 2, 48000, 800, 800, 2048, false);
             RegisterOutputHandler(sut);
             AudioFrame silence = new AudioFrame(4 * 2 * 800);
-            silence.Generate(2, 0, (frameIndex, channelIndex) => { return 0.0f; } );
+            silence.Generate(2, 0, (frameIndex, channelIndex) => { return 0.0f; });
             sut.ProcessInput(silence);
 
-            Assert.AreEqual(0.0f,outputFrames.First().Spectrum[0].Sum());
+            Assert.AreEqual(0.0f, outputFrames.First().Spectrum[0].Sum());
             Assert.AreEqual(0.0f, outputFrames.First().Spectrum[1].Sum());
         }
 
@@ -599,8 +598,8 @@ namespace AudioVisualizer.test
             for (int outputFrameIndex = 0; outputFrameIndex < 4; outputFrameIndex++)
             {
                 float expectedValue = (float)outputFrameIndex;
-                Assert.AreEqual(expectedValue, outputFrames[outputFrameIndex].Peak[0],"Channel 0");
-                Assert.AreEqual(expectedValue, outputFrames[outputFrameIndex].Peak[1],"Channel 1");
+                Assert.AreEqual(expectedValue, outputFrames[outputFrameIndex].Peak[0], "Channel 0");
+                Assert.AreEqual(expectedValue, outputFrames[outputFrameIndex].Peak[1], "Channel 1");
             }
 
 

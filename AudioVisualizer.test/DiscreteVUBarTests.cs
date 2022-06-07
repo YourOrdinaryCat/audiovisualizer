@@ -1,13 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -116,7 +112,8 @@ namespace AudioVisualizer.test
         [TestCategory("DiscreteVUBar")]
         public void DiscreteVUBar_SettingLevelsToNullThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.Levels = null;
             });
         }
@@ -124,7 +121,8 @@ namespace AudioVisualizer.test
         [TestCategory("DiscreteVUBar")]
         public void DiscreteVUBar_SettingLevelsToEmptyThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.Levels = new MeterBarLevel[] { };
             });
         }
@@ -132,7 +130,8 @@ namespace AudioVisualizer.test
         [TestCategory("DiscreteVUBar")]
         public void DiscreteVUBar_SettingLevelsToNonAscendingOrderThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.Levels = new MeterBarLevel[] {
                     new MeterBarLevel() { Level = -100 },
                     new MeterBarLevel() { Level = -100 },
@@ -236,7 +235,7 @@ namespace AudioVisualizer.test
         [TestCategory("DiscreteVUBar")]
         public void DiscreteVUBar_ShadowOffsetIsZeroSet()
         {
-            Assert.AreEqual(new System.Numerics.Vector3(0,0,0), sut.ElementShadowOffset);
+            Assert.AreEqual(new System.Numerics.Vector3(0, 0, 0), sut.ElementShadowOffset);
         }
         [UITestMethod]
         [TestCategory("DiscreteVUBar")]
@@ -272,7 +271,7 @@ namespace AudioVisualizer.test
         public void DiscreteVUBar_ElementVisualChildrenAreOfRightType()
         {
             Type[] expectedTypes = new Type[] { typeof(SpriteVisual), typeof(ContainerVisual) };
-            var elementVisual = (ContainerVisual) ElementCompositionPreview.GetElementChildVisual(sut);
+            var elementVisual = (ContainerVisual)ElementCompositionPreview.GetElementChildVisual(sut);
             CollectionAssert.AreEqual(expectedTypes, elementVisual.Children.Select(visual => visual.GetType()).ToArray());
         }
 
@@ -282,10 +281,10 @@ namespace AudioVisualizer.test
         public void DiscreteVUBar_BackgroundVisualHasBackgroundBrush()
         {
             var elementVisual = (ContainerVisual)ElementCompositionPreview.GetElementChildVisual(sut);
-            var backgroundVisual = (SpriteVisual) elementVisual.Children.First();
+            var backgroundVisual = (SpriteVisual)elementVisual.Children.First();
             sut.Background = new SolidColorBrush(Colors.OrangeRed);
 
-            var background = (CompositionColorBrush) backgroundVisual.Brush;
+            var background = (CompositionColorBrush)backgroundVisual.Brush;
             Assert.AreEqual(Colors.OrangeRed, background.Color);
         }
 
@@ -300,7 +299,7 @@ namespace AudioVisualizer.test
 
         class CustomElementFactory : AudioVisualizer.IBarElementFactory
         {
-            public List<(object,Windows.UI.Color,Size,Compositor,CompositionGraphicsDevice)> Calls = new List<(object,Color,Size,Compositor,CompositionGraphicsDevice)>();
+            public List<(object, Windows.UI.Color, Size, Compositor, CompositionGraphicsDevice)> Calls = new List<(object, Color, Size, Compositor, CompositionGraphicsDevice)>();
             public CompositionBrush CreateElementBrush(object sender, Color elementColor, Size size, Compositor compositor, CompositionGraphicsDevice device)
             {
                 Calls.Add((sender, elementColor, size, compositor, device));
@@ -324,7 +323,7 @@ namespace AudioVisualizer.test
             var call = factory.Calls.First();
             Assert.AreSame(sut, call.Item1);
             Assert.AreEqual(Colors.Blue, call.Item2);
-            Assert.AreEqual(new Size(0,0), call.Item3);
+            Assert.AreEqual(new Size(0, 0), call.Item3);
             Assert.IsNotNull(call.Item4);
             Assert.IsNotNull(call.Item5);
         }
@@ -342,8 +341,8 @@ namespace AudioVisualizer.test
                 new MeterBarLevel() { Color = Colors.Green, Level = 0 }
             };
             Assert.AreEqual(2, factory.Calls.Count);
-            Assert.IsTrue(factory.Calls.Exists( (obj) => obj.Item2 == Colors.Red),"Should contain Red element call");
-            Assert.IsTrue(factory.Calls.Exists((obj) => obj.Item2 == Colors.Green),"Should contain Green element call");
+            Assert.IsTrue(factory.Calls.Exists((obj) => obj.Item2 == Colors.Red), "Should contain Red element call");
+            Assert.IsTrue(factory.Calls.Exists((obj) => obj.Item2 == Colors.Green), "Should contain Green element call");
             var call = factory.Calls.First();
             Assert.AreSame(sut, call.Item1);
             Assert.AreEqual(new Size(0, 0), call.Item3);

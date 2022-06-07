@@ -1,11 +1,7 @@
-﻿using AudioVisualizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioVisualizer.test
 {
@@ -80,7 +76,7 @@ namespace AudioVisualizer.test
         public void SpectrumData_CreateWithValues()
         {
 
-            var data = SpectrumData.Create(g_InitialValues,2, ScaleType.Linear, ScaleType.Linear, 0, 20000);
+            var data = SpectrumData.Create(g_InitialValues, 2, ScaleType.Linear, ScaleType.Linear, 0, 20000);
             CollectionAssert.AreEqual(g_InitialValues.Take(5).ToArray(), data[0].ToArray());
             CollectionAssert.AreEqual(g_InitialValues.Skip(5).ToArray(), data[1].ToArray());
         }
@@ -102,7 +98,7 @@ namespace AudioVisualizer.test
             Assert.ThrowsException<ArgumentException>(
                 () =>
                 {
-                    var s = SpectrumData.Create(new float[] { 1,2 }, 3, ScaleType.Linear, ScaleType.Linear, 0.0f, 20000f);
+                    var s = SpectrumData.Create(new float[] { 1, 2 }, 3, ScaleType.Linear, ScaleType.Linear, 0.0f, 20000f);
                 }, "Too few init elements");
         }
 
@@ -113,7 +109,7 @@ namespace AudioVisualizer.test
             Assert.ThrowsException<ArgumentException>(
             () =>
             {
-                var s = SpectrumData.Create(g_InitialValues,2, ScaleType.Linear, ScaleType.Linear, 30000.0f, 20000f);
+                var s = SpectrumData.Create(g_InitialValues, 2, ScaleType.Linear, ScaleType.Linear, 30000.0f, 20000f);
             }, "MinFrequency > MaxFrequency");
         }
 
@@ -124,7 +120,7 @@ namespace AudioVisualizer.test
             Assert.ThrowsException<ArgumentException>(
                 () =>
                 {
-                    var s = SpectrumData.Create(g_InitialValues, 2,ScaleType.Linear, ScaleType.Linear, 20000f, 20000f);
+                    var s = SpectrumData.Create(g_InitialValues, 2, ScaleType.Linear, ScaleType.Linear, 20000f, 20000f);
                 }, "MinFrequency == MaxFrequency");
         }
 
@@ -135,7 +131,7 @@ namespace AudioVisualizer.test
             Assert.ThrowsException<ArgumentException>(
             () =>
             {
-                var s = SpectrumData.Create(g_InitialValues,2, ScaleType.Linear, ScaleType.Linear, -1.0f, 20000f);
+                var s = SpectrumData.Create(g_InitialValues, 2, ScaleType.Linear, ScaleType.Linear, -1.0f, 20000f);
             }, "MinFrequency < 0");
         }
 
@@ -146,7 +142,7 @@ namespace AudioVisualizer.test
             Assert.ThrowsException<ArgumentException>(
             () =>
             {
-                var s = SpectrumData.Create(g_InitialValues,2, ScaleType.Linear, ScaleType.Logarithmic, 0.0f, 20000f);
+                var s = SpectrumData.Create(g_InitialValues, 2, ScaleType.Linear, ScaleType.Logarithmic, 0.0f, 20000f);
             }, "MinFrequency == 0 while FrequencyScale == Logarithmic");
         }
 
@@ -214,16 +210,16 @@ namespace AudioVisualizer.test
         [TestCategory("SpectrumData")]
         public void SpectrumData_Log_GetCenterFrequency()
         {
-            Assert.AreEqual(14.12538f, sut.GetCenterFrequency(0),0.00001);
-            Assert.AreEqual(28.18383f, sut.GetCenterFrequency(1),0.00001);
+            Assert.AreEqual(14.12538f, sut.GetCenterFrequency(0), 0.00001);
+            Assert.AreEqual(28.18383f, sut.GetCenterFrequency(1), 0.00001);
         }
 
         [TestMethod()]
         [TestCategory("SpectrumData")]
         public void SpectrumData_Log_GetFrequency()
         {
-            Assert.AreEqual(10.0f, sut.GetFrequency(0),0.0001);
-            Assert.AreEqual(19.95262f, sut.GetFrequency(1),0.0001);
+            Assert.AreEqual(10.0f, sut.GetFrequency(0), 0.0001);
+            Assert.AreEqual(19.95262f, sut.GetFrequency(1), 0.0001);
         }
     }
 
@@ -235,7 +231,7 @@ namespace AudioVisualizer.test
         public void TestInit()
         {
             ltd = SpectrumData.Create(
-                new float [] { 1,2,3,4,5,10,20,30,40,50 },
+                new float[] { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 },
                 2,
                 ScaleType.Linear,
                 ScaleType.Linear,
@@ -282,7 +278,7 @@ namespace AudioVisualizer.test
 #else
             Assert.ThrowsException<Exception>(
 #endif
-                () => 
+                () =>
             {
                 SpectrumData.CreateEmpty(2, 10, ScaleType.Logarithmic, ScaleType.Linear, 0, 10000).LinearTransform(5, 0, 4000);
             });
@@ -325,7 +321,7 @@ namespace AudioVisualizer.test
         public void SpectrumData_LogarithmicTransform()
         {
             SpectrumData data = SpectrumData.Create(
-                new float[] { 0.1f,0.2f,0.3f,0.4f,0.5f,0.6f,0.7f,0.8f,0.9f,1.0f },
+                new float[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f },
                 1,
                 ScaleType.Linear,
                 ScaleType.Linear,

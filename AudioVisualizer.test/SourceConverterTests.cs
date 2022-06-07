@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AudioVisualizer;
-using System.ComponentModel;
-using Windows.Foundation;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Windows.Foundation;
 
 namespace AudioVisualizer.test
 {
@@ -234,7 +231,8 @@ namespace AudioVisualizer.test
         [TestCategory("SourceConverter")]
         public void SourceConverter_SettingChannelMapWithLessSizeThanCountThrows()
         {
-            Assert.ThrowsException<ArgumentException>(() => {
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
                 sut.ChannelCount = 2;
                 sut.ChannelMapping = new float[] { 0 };
             });
@@ -253,7 +251,7 @@ namespace AudioVisualizer.test
         public void SourceConverter_SettingScaleToLogWithNullMinFrequencyThrows()
         {
             Assert.IsNull(sut.MinFrequency);
-            Assert.ThrowsException<ArgumentException>(() => 
+            Assert.ThrowsException<ArgumentException>(() =>
             {
                 sut.FrequencyScale = ScaleType.Logarithmic;
             });
@@ -291,7 +289,7 @@ namespace AudioVisualizer.test
             Assert.ThrowsException<ArgumentException>(() => { sut.MinFrequency = 20000.0f; });
         }
 
- 
+
 
     }
 
@@ -357,13 +355,13 @@ namespace AudioVisualizer.test
         [TestMethod()]
         public void SourceConverter_PlaybackStateIsStopped()
         {
-            Assert.AreEqual(SourcePlaybackState.Stopped,sut.PlaybackState);
+            Assert.AreEqual(SourcePlaybackState.Stopped, sut.PlaybackState);
         }
         [TestCategory("SourceConverter")]
         [TestMethod()]
         public void SourceConverter_PresentationTimeIsNull()
         {
-                Assert.IsNull(sut.PresentationTime);
+            Assert.IsNull(sut.PresentationTime);
         }
 
         [TestCategory("SourceConverter")]
@@ -542,8 +540,8 @@ namespace AudioVisualizer.test
                 testFrame.Duration,
                 ScalarData.Create(Enumerable.Repeat<float>(1.0f, (int)expectedChannelCount).ToArray()),
                 ScalarData.Create(Enumerable.Repeat<float>(2.0f, (int)expectedChannelCount).ToArray()),
-                SpectrumData.Create( 
-                    Enumerable.Repeat<float>(1.0f,(int)(expectedChannelCount * expectedFrequencyCount)).ToArray(), expectedChannelCount, ScaleType.Linear, ScaleType.Linear, expectedMinFrequency, expectedMaxFrequency)
+                SpectrumData.Create(
+                    Enumerable.Repeat<float>(1.0f, (int)(expectedChannelCount * expectedFrequencyCount)).ToArray(), expectedChannelCount, ScaleType.Linear, ScaleType.Linear, expectedMinFrequency, expectedMaxFrequency)
                     );
 
             sut.SpectrumRiseTime = TimeSpan.FromMilliseconds(100);
@@ -653,7 +651,7 @@ namespace AudioVisualizer.test
             sut.CacheData = false;
             testSource.Frame = null;
             var frame = sut.GetData();
-            Assert.AreEqual((int) testSource.ExpectedChannels,frame.RMS.Count());
+            Assert.AreEqual((int)testSource.ExpectedChannels, frame.RMS.Count());
         }
         [TestMethod]
         [TestCategory("SourceConverter")]
@@ -671,7 +669,7 @@ namespace AudioVisualizer.test
             sut.CacheData = false;
             testSource.Frame = null;
             var frame = sut.GetData();
-            Assert.AreEqual((int) testSource.ExpectedChannels, frame.Peak.Count());
+            Assert.AreEqual((int)testSource.ExpectedChannels, frame.Peak.Count());
         }
         [TestMethod]
         [TestCategory("SourceConverter")]
@@ -689,7 +687,7 @@ namespace AudioVisualizer.test
             sut.CacheData = false;
             testSource.Frame = null;
             var frame = sut.GetData();
-            Assert.AreEqual((int) testSource.ExpectedChannels, frame.Spectrum.Count());
+            Assert.AreEqual((int)testSource.ExpectedChannels, frame.Spectrum.Count());
         }
         [TestMethod]
         [TestCategory("SourceConverter")]
@@ -718,7 +716,7 @@ namespace AudioVisualizer.test
             testSource.Frame = null;
             testSource.ExpectedFrequencies = 10;
             var frame = sut.GetData();
-            Assert.AreEqual(10, (int) frame.Spectrum.FrequencyCount);
+            Assert.AreEqual(10, (int)frame.Spectrum.FrequencyCount);
         }
     }
 
@@ -745,7 +743,7 @@ namespace AudioVisualizer.test
                 ScalarData.CreateEmpty(expectedChannelCount),
                 ScalarData.CreateEmpty(expectedChannelCount),
                 SpectrumData.CreateEmpty(expectedChannelCount, 10, ScaleType.Linear, ScaleType.Linear, 0, 10000));
-                
+
 
             testSource.Frame = testFrame;
         }
@@ -778,7 +776,7 @@ namespace AudioVisualizer.test
         [DataTestMethod]
         [DataRow(2u, 1u, new float[] { 3.0f })]
         [DataRow(5u, 1u, new float[] { 31.0f })]
-        [DataRow(1u, 2u, new float[] { 1.0f,1.0f })]
+        [DataRow(1u, 2u, new float[] { 1.0f, 1.0f })]
         [DataRow(2u, 2u, new float[] { 1.0f, 2.0f })]
         [DataRow(3u, 2u, new float[] { 1.0f, 2.0f })]
         [DataRow(4u, 2u, new float[] { 5.0f, 10.0f })]
@@ -786,11 +784,11 @@ namespace AudioVisualizer.test
         [DataRow(6u, 2u, new float[] { 17.0f, 34.0f })]
         [DataRow(3u, 5u, new float[] { 1.0f, 2.0f, 4.0f, 0.0f, 0.0f })]
         [DataRow(5u, 3u, new float[] { 1.0f, 2.0f, 4.0f })]
-        public void SourceConverter_CombineChannels_WoMap(uint inputChannels,uint outChannels,float [] expectedRms)
+        public void SourceConverter_CombineChannels_WoMap(uint inputChannels, uint outChannels, float[] expectedRms)
         {
             float[] input = new float[inputChannels];
             float value = 1.0f;
-            for (int index = 0; index < inputChannels; index++,value *= 2.0f)
+            for (int index = 0; index < inputChannels; index++, value *= 2.0f)
             {
                 input[index] = value;
             }
@@ -801,13 +799,13 @@ namespace AudioVisualizer.test
             sut.ChannelCount = outChannels;
 
             var outFrame = sut.GetData();
-                     
+
             CollectionAssert.AreEqual(expectedRms, outFrame.RMS.ToArray());
         }
         [TestCategory("SourceConverter")]
         [DataTestMethod]
-        [DataRow(3u, 2u, new float[] { 0.1f,0.2f },new float[] { 0.5f,0.0f })]
-        public void SourceConverter_CombineChannels_WithMap(uint inputChannels, uint outChannels, float [] map, float[] expectedRms)
+        [DataRow(3u, 2u, new float[] { 0.1f, 0.2f }, new float[] { 0.5f, 0.0f })]
+        public void SourceConverter_CombineChannels_WithMap(uint inputChannels, uint outChannels, float[] map, float[] expectedRms)
         {
             float[] input = new float[inputChannels];
             float value = 1.0f;
